@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1d39" />
+  <meta name="description" content="Desafio informativo: você sabe a qual plano de governo pertencem estas propostas? Fontes oficiais do TSE." />
+  <title>DESAFIO BRASIL 2026 | Quem propõe o quê?</title>
+  <style>
+    :root { color-scheme: dark; --bg:#071426; --panel:#10233e; --border:#28445f; --text:#f8fafc; --muted:#b6c5d9; --accent:#f1c761; --cyan:#38bdf8; --green:#67dfb3; --radius:20px; }
+    *,*::before,*::after {box-sizing:border-box}
+    body {margin:0; min-width:300px; background:radial-gradient(ellipse 90% 38% at 50% -2%, #234a79 0%, #071426 77%); color:var(--text); font:16px/1.52 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a {color:#a6dfff;text-underline-offset:3px}
+    button {font:inherit; cursor:pointer; touch-action:manipulation}
+    button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+    .wrap {max-width:1100px;margin:auto;padding:0 max(18px,env(safe-area-inset-right)) 36px}
+    header {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 0;border-bottom:1px solid #294562}
+    .brand {display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:.04em;font-size:clamp(14px,2vw,18px)}
+    .flag {display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:#147b58;font-size:18px}
+    .eyebrow {font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#d3e3f7;font-weight:850}
+    .meta {font-size:12px;color:var(--muted);text-align:right}
+    .hero {text-align:center;max-width:850px;margin:43px auto 28px}
+    h1 {font-size:clamp(31px,5vw,55px);letter-spacing:-.045em;line-height:1.1;margin:12px 0;color:white}
+    h1 em{font-style:normal;color:var(--accent)}
+    .sub {font-size:clamp(15px,2vw,18px);color:#d2deee;margin:0 auto;max-width:710px}
+    .chip {display:inline-block;background:#193954;border:1px solid #386081;color:#cceeff;border-radius:99px;padding:6px 12px;margin-top:20px;font-size:12px;font-weight:750}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:770px;margin:25px auto 30px}
+    .candidate{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;gap:5px;background:linear-gradient(145deg,#1b3959,#10243e);border:2px solid #345473;border-radius:22px;padding:16px 12px 18px;color:white;min-height:220px;transition:transform .18s,border-color .18s,box-shadow .18s}
+    .candidate:hover:not(:disabled){transform:translateY(-3px);border-color:#c4dded;box-shadow:0 12px 30px #0005}
+    .candidate:disabled {cursor:default}
+    .candidate:disabled:not(.selected){opacity:.68}
+    .candidate.selected{border-color:var(--accent);box-shadow:0 0 0 2px #a4873f66}
+    .candidate.correct{border-color:var(--green)}
+    .portrait{width:clamp(93px,19vw,152px);height:clamp(93px,19vw,152px);object-fit:cover;object-position:center top;border-radius:50%;background:#dce6ef;border:4px solid #ffffff2c;box-shadow:0 8px 24px #0005}
+    .candidate strong{font-size:clamp(17px,2.5vw,23px);line-height:1.1;margin-top:10px;text-align:center}
+    .candidate small{font-size:13px;color:#cfdeef}
+    .candidate .tap{font-size:11px;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-top:8px}
+    .panel {border:1px solid #345472;border-radius:var(--radius);background:linear-gradient(165deg,#142d4b,#0e2139);padding:clamp(17px,3vw,28px);max-width:770px;margin:0 auto 22px;box-shadow:0 14px 35px #0003}
+    .topline{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#cae0f5;font-size:12px;text-transform:uppercase;font-weight:800;letter-spacing:.07em}
+    h2{font-size:clamp(22px,3vw,30px);line-height:1.22;margin:15px 0 10px;letter-spacing:-.018em}
+    .instruction{margin:0;color:var(--muted);font-size:14px}
+    .result {display:none;background:#0b2432;border:1px solid #367868;border-radius:14px;margin-top:20px;padding:17px;outline:0}
+    .result.visible{display:block}
+    .result.wrong{background:#292416;border-color:#a67c2b}
+    .result h3{margin:0 0 6px;font-size:19px}
+    .result p{margin:0 0 8px;color:#e2edf7;font-size:14px}
+    .result a{font-size:13px;font-weight:700}
+    .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .btn {border:none;border-radius:13px;padding:13px 23px;font-weight:800;background:var(--accent);color:#1e2531;min-height:47px}
+    .btn:disabled{background:#77879b;color:#233246;cursor:not-allowed}
+    .btn.secondary {background:#183c60;border:1px solid #487497;color:white}
+    .stats {display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:770px;margin:0 auto 23px}
+    .stat {background:#0c2039;border:1px solid #294765;border-radius:15px;padding:16px}
+    .stathead {display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:13px;margin-bottom:10px;color:#cbdced}
+    .stathead b{font-size:19px;color:#fff;font-variant-numeric:tabular-nums}
+    .track {height:11px;border-radius:100px;background:#263e56;overflow:hidden}
+    .fill{height:100%;width:0%;border-radius:100px;background:linear-gradient(90deg,#0ea5e9,#77dbfc);transition:width .45s ease}
+    .fill.gold{background:linear-gradient(90deg,#c69a32,#f1d989)}
+    .about {max-width:770px;margin:0 auto;padding:8px 4px;color:#c6d5e6}
+    .about h3{font-size:18px;margin:12px 0 5px;color:white}
+    .about p{font-size:13px;line-height:1.65;margin:0 0 9px}
+    .source-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:13px}
+    .source-links a {display:inline-block;padding:8px 11px;border:1px solid #446581;border-radius:9px;font-size:12px;text-decoration:none}
+    .disclaimer {font-size:12px;color:#b2c4db;border-top:1px solid #294562;margin-top:22px;padding-top:20px}
+    .sr-only {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (max-width:600px){header{padding:15px 0}.meta{font-size:10px}.hero{margin:27px auto 16px}.chip{margin-top:12px}.grid{gap:10px;margin:19px auto}.candidate{min-height:192px;padding:14px 5px}.candidate small{font-size:12px}.candidate .tap{font-size:10px}.stats{gap:10px}.stat{padding:12px}.stathead{flex-wrap:wrap;font-size:12px}.stathead b{font-size:17px}.panel{padding:17px}.wrap{padding-left:14px;padding-right:14px}.actions .btn{width:100%}}
+    @media (prefers-reduced-motion:reduce){.fill,.candidate{transition:none}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="flag" aria-hidden="true">🇧🇷</span> DESAFIO BRASIL 2026</div>
+    <div class="meta">INFORMAÇÃO • FONTES OFICIAIS<br>2º TURNO PRESIDENCIAL</div>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="site-title">
+      <div class="eyebrow">QUEM PROPÕE O QUÊ?</div>
+      <h1 id="site-title">DESAFIO <em>BRASIL 2026</em></h1>
+      <p class="sub">Você sabe identificar quais propostas constam dos planos de governo de Lula e Flávio Bolsonaro? Clique na foto, descubra a resposta e confira o documento do TSE.</p>
+      <div class="chip">6 perguntas • 2 candidatos • Documentos oficiais</div>
+    </section>
+    <section class="panel" aria-labelledby="question-title">
+      <div class="topline"><span id="question-position">PERGUNTA 1 DE 6</span><span id="answer-status">TOQUE EM UMA FOTO ABAIXO</span></div>
+      <h2 id="question-title">Carregando pergunta...</h2>
+      <p class="instruction">O desafio pergunta em qual plano de governo o tema aparece expressamente, conforme o índice oficial do TSE. Não é uma pergunta sobre preferência eleitoral.</p>
+      <div class="grid" aria-label="Escolha em qual plano a proposta aparece">
+        <button class="candidate" id="choose-lula" type="button" onclick="answer('lula')">
+          <img class="portrait" src="https://www.tse.jus.br/imagens/imagens/lula/%40%40images/image-200-93d51d895f8ebc8900bf3e02c7052bef.png" alt="Retrato de Lula reproduzido do portal do TSE" loading="lazy" onerror="this.style.visibility='hidden';this.parentNode.style.background='#27506f'">
+          <strong>Lula</strong><small>PT • Nº 13</small><span class="tap">Escolher esta foto</span>
+        </button>
+        <button class="candidate" id="choose-flavio" type="button" onclick="answer('flavio')">
+          <img class="portrait" src="https://www.tse.jus.br/imagens/imagens/flavio-bolsonaro/%40%40images/image-200-7092d276831e3453f70c59d07d5c9ae7.png" alt="Retrato de Flávio Bolsonaro reproduzido do portal do TSE" loading="lazy" onerror="this.style.visibility='hidden';this.parentNode.style.background='#27506f'">
+          <strong>Flávio Bolsonaro</strong><small>PL • Nº 22</small><span class="tap">Escolher esta foto</span>
+        </button>
+      </div>
+      <section class="result" id="answer-result" role="status" aria-live="polite" tabindex="-1">
+        <h3 id="result-heading"></h3><p id="result-explain"></p>
+        <a id="result-source" href="#" target="_blank" rel="noopener noreferrer">Conferir no TSE ↗</a>
+      </section>
+      <div class="actions"><button id="next" type="button" class="btn" disabled onclick="nextQuestion()">Próxima pergunta →</button></div>
+    </section>
+    <section class="stats" aria-label="Seu desempenho pessoal no desafio">
+      <div class="stat"><div class="stathead"><span>Perguntas respondidas</span><b id="progress-num">0/6</b></div><div class="track"><div class="fill" id="progress-bar"></div></div></div>
+      <div class="stat"><div class="stathead"><span>Seu percentual de acertos</span><b id="score-num">0%</b></div><div class="track"><div class="fill gold" id="score-bar"></div></div></div>
+    </section>
+    <section class="about" aria-label="Sobre o projeto e fontes">
+      <h3>Informação com fonte verificável</h3>
+      <p>As perguntas são baseadas nos índices de propostas divulgados pelo Tribunal Superior Eleitoral. A identificação de um tópico em determinado plano não significa necessariamente que o outro candidato discorde dele. Para conhecer o conteúdo e as condições de cada proposta, consulte o documento completo.</p>
+      <div class="source-links"><a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro" target="_blank" rel="noopener noreferrer">Plano de Flávio • TSE ↗</a><a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/lula-propostas-de-governo" target="_blank" rel="noopener noreferrer">Plano de Lula • TSE ↗</a></div>
+      <div class="disclaimer">DEMONSTRAÇÃO INFORMATIVA. Este desafio não registra, mede nem divulga intenção de voto. O clique identifica somente uma resposta sobre o conteúdo de documentos públicos; as barras mostram o desempenho individual nesta sessão. Não há contagem nacional nem banco de dados de participantes. Projeto independente, não afiliado ao TSE nem às campanhas. Fotografias: portal do TSE. Recomenda-se revisão jurídica antes da publicação eleitoral.</div>
+    </section>
+  </main>
+</div>
+<script>
+  const sources = {
+    lula: 'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/lula-propostas-de-governo',
+    flavio: 'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro'
+  };
+  const questions = [
+    {q:'Qual plano apresenta expressamente o fim da escala 6×1 e a redução da jornada para 40 horas semanais?', correct:'lula', explain:'O índice oficial das propostas de Lula inclui “Fim da escala 6x1 e redução da jornada (40h)” no eixo Economia, Trabalho e Responsabilidade Fiscal.'},
+    {q:'Em qual plano aparece a iniciativa chamada “INSS sem fila”?', correct:'flavio', explain:'O índice oficial do plano de Flávio Bolsonaro identifica “INSS sem fila” em Saúde Pública e Assistência.'},
+    {q:'Qual plano inclui expressamente a proposta de escolas cívico-militares?', correct:'flavio', explain:'O índice das propostas de Flávio Bolsonaro apresenta “Escolas cívico-militares” no eixo Educação.'},
+    {q:'Qual plano lista o programa Pé-de-Meia no tema do ensino médio?', correct:'lula', explain:'O índice oficial das propostas de Lula inclui “Ensino médio (Pé-de-Meia)” no eixo Educação, Ciência e Meio Ambiente.'},
+    {q:'Em qual plano o “Brasil Sorridente” é citado no tema de saúde bucal?', correct:'lula', explain:'O índice do plano de Lula menciona “Saúde bucal (Brasil Sorridente)” no eixo Saúde Pública e Assistência.'},
+    {q:'Qual plano apresenta o tópico “Bônus de internet”?', correct:'flavio', explain:'O índice oficial das propostas de Flávio Bolsonaro inclui “Bônus de internet” no eixo Direitos Humanos, Equidade e Inclusão Social.'}
+  ];
+  let index=0, answered=false, correctCount=0;
+  const $=id=>document.getElementById(id);
+  function render(){
+    answered=false;
+    let q=questions[index];
+    $('question-position').textContent=`PERGUNTA ${index+1} DE ${questions.length}`;
+    $('question-title').textContent=q.q;
+    $('answer-status').textContent='TOQUE EM UMA FOTO ABAIXO';
+    $('answer-result').className='result';
+    $('next').disabled=true;
+    for(const k of ['lula','flavio']){
+      const b=$('choose-'+k);b.disabled=false;b.classList.remove('selected','correct');b.querySelector('.tap').textContent='Escolher esta foto';
+    }
+  }
+  function updateStats(){
+    const n=index+(answered?1:0);
+    const success=n?Math.round(correctCount/n*100):0;
+    $('progress-num').textContent=`${n}/${questions.length}`;
+    $('progress-bar').style.width=(n/questions.length*100)+'%';
+    $('score-num').textContent=success+'%';
+    $('score-bar').style.width=success+'%';
+  }
+  function answer(chosen){
+    if(answered)return;
+    answered=true;
+    const q=questions[index],right=chosen===q.correct;
+    if(right)correctCount++;
+    for(const k of ['lula','flavio']){
+      const b=$('choose-'+k);b.disabled=true;
+      if(k===chosen)b.classList.add('selected');
+      if(k===q.correct)b.classList.add('correct');
+      b.querySelector('.tap').textContent=k===q.correct?'Consta neste plano':(k===chosen?'Sua escolha':'');
+    }
+    $('answer-status').textContent=right?'RESPOSTA CORRETA':'VEJA A RESPOSTA';
+    $('result-heading').textContent=right?'✓ Você acertou!':'Resposta revelada';
+    $('result-explain').textContent=q.explain;
+    $('result-source').href=sources[q.correct];
+    $('result-source').textContent=`Conferir o plano no TSE →`;
+    $('answer-result').className='result visible'+(right?'':' wrong');
+    $('next').disabled=false;
+    $('next').textContent=index===questions.length-1?'Ver meu resultado final →':'Próxima pergunta →';
+    updateStats();
+  }
+  function nextQuestion(){
+    if(!answered)return;
+    if(index<questions.length-1){index++;render();document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});return;}
+    const pct=Math.round(correctCount/questions.length*100);
+    $('question-position').textContent='DESAFIO CONCLUÍDO';
+    $('answer-status').textContent='SEU RESULTADO PESSOAL';
+    $('question-title').textContent=`Você acertou ${correctCount} de ${questions.length} perguntas (${pct}%).`;
+    document.querySelector('.instruction').textContent='O desafio terminou. Continue explorando as propostas completas nos links do TSE. Seu desempenho não foi enviado nem registrado.';
+    document.querySelector('.grid').style.display='none';
+    $('answer-result').className='result';
+    $('next').textContent='Refazer o desafio ↻';
+    $('next').disabled=false;
+    $('next').onclick=function(){index=0;answered=false;correctCount=0;document.querySelector('.grid').style.display='grid';document.querySelector('.instruction').textContent='O desafio pergunta em qual plano de governo o tema aparece expressamente, conforme o índice oficial do TSE. Não é uma pergunta sobre preferência eleitoral.';$('next').onclick=nextQuestion;render();updateStats();document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'})};
+    document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  render(); updateStats();
+</script>
+</body>
+</html>
