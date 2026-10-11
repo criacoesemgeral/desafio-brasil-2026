@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071426">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Acompanhe de forma privada suas rodadas no Desafio Brasil 2026.">
+  <title>Meus resultados — Desafio Brasil 2026</title>
+  <style>
+    :root{color-scheme:dark;--bg:#071426;--panel:#10233e;--line:#345472;--text:#f8fafc;--muted:#bed1e7;--accent:#f1c761;--cyan:#54c3ed}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 90% 45% at 50% 0,#1d416d 0%,var(--bg) 77%);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{max-width:840px;margin:auto;padding:26px 18px 60px}a{color:#9bdeff;text-underline-offset:3px}a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:18px;border-bottom:1px solid #35516b;padding-bottom:19px;flex-wrap:wrap}
+    .brand{font-size:15px;font-weight:900;letter-spacing:.05em}.flag{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:#16845c;margin-right:9px}
+    .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#b7e5fc;font-weight:800;margin:30px 0 5px}h1{font-size:clamp(30px,5vw,46px);line-height:1.14;margin:5px 0 13px}h1 span{color:var(--accent)}
+    .lead{color:var(--muted);max-width:690px;margin:0 0 24px}
+    .panel{border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#142d4b,#0f223b);padding:clamp(17px,3vw,26px);margin-top:20px}
+    .buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}.btn{background:var(--accent);border:0;border-radius:10px;padding:12px 19px;min-height:46px;font:800 15px/1.3 inherit;color:#162538;cursor:pointer}.btn.alt{background:#163b5b;border:1px solid #5685ab;color:white}.btn:disabled{opacity:.65;cursor:wait}
+    .status{color:#c9e8fa;margin:15px 0 0;font-size:14px;min-height:22px}.notice{color:#bdd1e4;font-size:13px}.warning{color:#ffdb8a}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.stat{border:1px solid #345676;background:#0c2039;border-radius:14px;padding:17px}.stat small{display:block;color:#c8d8ea;font-size:13px}.stat strong{display:block;font-size:clamp(25px,4.2vw,33px);font-variant-numeric:tabular-nums;line-height:1.35;margin-top:6px}
+    .bar{height:10px;background:#284159;border-radius:50px;overflow:hidden;margin-top:12px}.bar span{display:block;height:100%;background:linear-gradient(90deg,#c49a32,#f1db8c);width:0;transition:width .3s ease}
+    h2{font-size:21px;margin:0 0 11px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;min-width:440px}th,td{padding:12px 10px;text-align:left;border-bottom:1px solid #36516a}th{color:#d4e4f5;font-size:12px;text-transform:uppercase;letter-spacing:.05em}td:nth-child(2),td:nth-child(3),th:nth-child(2),th:nth-child(3){text-align:right}td{font-variant-numeric:tabular-nums}
+    .foot{border-top:1px solid #344c63;padding-top:18px;margin-top:28px;font-size:12px;color:#bbcddd;line-height:1.7}
+    [hidden]{display:none!important}
+    @media(max-width:600px){main{padding:17px 14px 40px}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1 / -1}.buttons .btn{flex:1 1 160px}}
+    @media(prefers-reduced-motion:reduce){.bar span{transition:none}}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand"><span class="flag" aria-hidden="true">BR</span>DESAFIO BRASIL 2026</div>
+    <a href="teste-registro.html">← Voltar ao desafio</a>
+  </header>
+  <p class="eyebrow">Acompanhamento privado • fase piloto</p>
+  <h1>Meus <span>resultados</span></h1>
+  <p class="lead">Acompanhe as rodadas que você autorizou registrar. Só a sua conta Google pode consultar estes resultados; não há placar nacional público nesta versão.</p>
+
+  <section class="panel" aria-labelledby="acesso-titulo">
+    <h2 id="acesso-titulo">Acesso à sua conta</h2>
+    <p class="notice">Se já entrou com Google no quiz neste navegador, sua sessão poderá ser reconhecida automaticamente.</p>
+    <div class="buttons">
+      <button class="btn" id="entrar" type="button" hidden>Entrar com Google</button>
+      <button class="btn alt" id="atualizar" type="button" hidden>Atualizar resultados</button>
+      <button class="btn alt" id="sair" type="button" hidden>Sair da conta</button>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite">Verificando sua sessão…</p>
+  </section>
+
+  <section id="conteudo" hidden>
+    <div class="stats" aria-label="Resumo das rodadas registradas">
+      <div class="stat"><small>Rodadas registradas</small><strong id="rodadas">—</strong></div>
+      <div class="stat"><small>Acertos acumulados</small><strong id="acertos">—</strong></div>
+      <div class="stat"><small>Aproveitamento médio</small><strong id="media">—</strong><div class="bar" aria-hidden="true"><span id="barra"></span></div></div>
+    </div>
+    <section class="panel" aria-labelledby="historico-titulo">
+      <h2 id="historico-titulo">Histórico das suas rodadas</h2>
+      <p id="estado" class="notice">Estado cadastrado: carregando…</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th scope="col">Data da rodada</th><th scope="col">Acertos</th><th scope="col">Aproveitamento</th></tr></thead>
+          <tbody id="historico"></tbody>
+        </table>
+      </div>
+      <p id="vazio" class="notice" hidden>Nenhuma rodada registrada nesta conta até agora. Retorne ao quiz, habilite o registro e conclua uma rodada.</p>
+    </section>
+  </section>
+
+  <p class="foot">Painel experimental do DESAFIO BRASIL 2026. Exibe exclusivamente registros associados à conta autenticada, conforme as regras do Firestore. O estado é informado pelo participante e as pontuações ainda não possuem validação independente; portanto, estes dados não constituem pesquisa eleitoral nem estatísticas nacionais verificadas. Não há acesso público aos resultados individuais. Projeto independente, sem vínculo com o TSE, partidos ou campanhas.</p>
+</main>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js';
+  import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js';
+  import { getFirestore, doc, getDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js';
+
+  // Identificadores públicos do aplicativo Web; nunca inserir credenciais administrativas nesta página.
+  const firebaseConfig = {
+    apiKey: 'AIzaSyDUDGjlJYPdI9nOO8xBLxzptr0MMOyrLvY',
+    authDomain: 'desafio-brasil-2026.firebaseapp.com',
+    projectId: 'desafio-brasil-2026',
+    storageBucket: 'desafio-brasil-2026.firebasestorage.app',
+    messagingSenderId: '377110809589',
+    appId: '1:377110809589:web:b1818538bce5b678be2ebc'
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+  const $ = id => document.getElementById(id);
+  const enter = $('entrar'), refresh = $('atualizar'), logout = $('sair'), status = $('status'), content = $('conteudo');
+  let revision = 0;
+  const message = err => ({
+    'permission-denied': 'O Firebase não autorizou a consulta. Verifique se as regras de segurança do piloto estão publicadas.',
+    'unavailable': 'O banco de dados está indisponível. Tente novamente mais tarde.',
+    'auth/popup-closed-by-user': 'A janela do Google foi fechada.',
+    'auth/popup-blocked': 'O navegador bloqueou a janela. Permita pop-ups para este endereço.',
+    'auth/unauthorized-domain': 'O endereço precisa ser autorizado no Firebase Authentication.'
+  })[err?.code] || ('Não foi possível consultar agora' + (err?.code ? ' (' + err.code + ').' : '.'));
+  function dateLabel(date) {
+    try {return date?.toDate ? new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short'}).format(date.toDate()) : 'Data indisponível';}
+    catch {return 'Data indisponível';}
+  }
+  function resetNumbers() {
+    $('rodadas').textContent = '—'; $('acertos').textContent = '—'; $('media').textContent = '—'; $('barra').style.width = '0%';
+    $('historico').replaceChildren(); $('vazio').hidden = true;
+  }
+  async function readOwnResults() {
+    const user = auth.currentUser;
+    if (!user) return;
+    const current = ++revision;
+    refresh.disabled = true;
+    status.textContent = 'Consultando seus dados privados no Firebase…';
+    try {
+      const [profile, rounds] = await Promise.all([
+        getDoc(doc(db,'participantes',user.uid)),
+        getDocs(collection(db,'participantes',user.uid,'rodadas'))
+      ]);
+      if (current !== revision || auth.currentUser?.uid !== user.uid) return;
+      const uf = profile.exists() ? profile.data().uf : '';
+      $('estado').textContent = uf ? `Estado informado: ${uf}` : 'Estado ainda não cadastrado nesta conta.';
+      const items = [];
+      rounds.forEach(s => {
+        const r = s.data();
+        if (Number.isInteger(r.acertos) && Number.isInteger(r.total) && r.total > 0 && r.acertos >= 0 && r.acertos <= r.total)
+          items.push({acertos:r.acertos,total:r.total,criadoEm:r.criadoEm});
+      });
+      items.sort((a,b)=>(b.criadoEm?.toMillis?.()||0)-(a.criadoEm?.toMillis?.()||0));
+      const sum = items.reduce((n,r)=>n+r.acertos,0);
+      const total = items.reduce((n,r)=>n+r.total,0);
+      const pct = total ? 100*sum/total : 0;
+      $('rodadas').textContent = String(items.length);
+      $('acertos').textContent = `${sum} de ${total}`;
+      $('media').textContent = `${pct.toLocaleString('pt-BR',{maximumFractionDigits:1})}%`;
+      $('barra').style.width = `${pct}%`;
+      const fragment = document.createDocumentFragment();
+      for(const r of items){
+        const tr = document.createElement('tr');
+        const date = document.createElement('td'); date.textContent = dateLabel(r.criadoEm);
+        const score = document.createElement('td'); score.textContent = `${r.acertos}/${r.total}`;
+        const percent = document.createElement('td'); percent.textContent = `${(100*r.acertos/r.total).toLocaleString('pt-BR',{maximumFractionDigits:1})}%`;
+        tr.append(date,score,percent); fragment.append(tr);
+      }
+      $('historico').replaceChildren(fragment);
+      $('vazio').hidden = items.length !== 0;
+      content.hidden = false;
+      status.textContent = `Consulta concluída. Foram encontradas ${items.length} rodada(s) nesta conta.`;
+    } catch (e) {
+      if (current !== revision) return;
+      content.hidden = true;
+      status.textContent = message(e);
+    } finally { if(current === revision) refresh.disabled=false; }
+  }
+  if(location.protocol === 'file:'){
+    status.textContent = 'Abra este arquivo pelo GitHub Pages para consultar seus resultados.';
+    enter.hidden = refresh.hidden = logout.hidden = true;
+  } else {
+    onAuthStateChanged(auth,user => {
+      revision++;
+      resetNumbers(); content.hidden = true;
+      enter.hidden = !!user; refresh.hidden = !user; logout.hidden = !user;
+      status.textContent = user ? 'Conta conectada. Preparando seu histórico…' : 'Para consultar seus resultados privados, entre com Google.';
+      if(user) void readOwnResults();
+    },e=>{status.textContent=message(e);});
+    enter.addEventListener('click',async()=>{
+      enter.disabled = true;
+      status.textContent = 'Abrindo a entrada com Google…';
+      try {await signInWithPopup(auth,provider);} catch(e){status.textContent=message(e);} finally {enter.disabled=false;}
+    });
+    refresh.addEventListener('click',()=>void readOwnResults());
+    logout.addEventListener('click',async()=>{
+      logout.disabled=true;
+      try {await signOut(auth);}catch(e){status.textContent=message(e);}finally{logout.disabled=false;}
+    });
+  }
+</script>
+</body>
+</html>
