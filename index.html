@@ -78,7 +78,7 @@
       <div class="eyebrow">QUEM PROPÕE O QUÊ?</div>
       <h1 id="site-title">DESAFIO <em>BRASIL 2026</em></h1>
       <p class="sub">Você sabe identificar quais propostas constam dos planos de governo de Lula e Flávio Bolsonaro? Clique na foto, descubra a resposta e confira o documento do TSE.</p>
-      <div class="chip">6 perguntas • 2 candidatos • Documentos oficiais</div>
+      <div class="chip">60 perguntas no banco • 6 por rodada • 2 candidatos</div>
     </section>
     <section class="panel" aria-labelledby="question-title">
       <div class="topline"><span id="question-position">PERGUNTA 1 DE 6</span><span id="answer-status">TOQUE EM UMA FOTO ABAIXO</span></div>
@@ -106,84 +106,496 @@
     </section>
     <section class="about" aria-label="Sobre o projeto e fontes">
       <h3>Informação com fonte verificável</h3>
-      <p>As perguntas são baseadas nos índices de propostas divulgados pelo Tribunal Superior Eleitoral. A identificação de um tópico em determinado plano não significa necessariamente que o outro candidato discorde dele. Para conhecer o conteúdo e as condições de cada proposta, consulte o documento completo.</p>
+      <p>As 60 perguntas foram elaboradas a partir dos índices temáticos das propostas divulgadas pelo Tribunal Superior Eleitoral, com 30 itens de cada candidatura. Cada rodada apresenta seis perguntas sorteadas (três referentes a cada índice). A indicação de um tópico em determinado plano não implica exclusividade da proposta, nem oposição do outro candidato. Para conhecer o conteúdo e as condições de cada proposta, consulte o documento completo.</p>
       <div class="source-links"><a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro" target="_blank" rel="noopener noreferrer">Plano de Flávio • TSE ↗</a><a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/lula-propostas-de-governo" target="_blank" rel="noopener noreferrer">Plano de Lula • TSE ↗</a></div>
-      <div class="disclaimer">DEMONSTRAÇÃO INFORMATIVA. Este desafio não registra, mede nem divulga intenção de voto. O clique identifica somente uma resposta sobre o conteúdo de documentos públicos; as barras mostram o desempenho individual nesta sessão. Não há contagem nacional nem banco de dados de participantes. Projeto independente, sem vínculo com o TSE, partidos ou campanhas. Fotografias de candidaturas: arquivos FBR280002542548_div.jpg e FBR280002551544_div.jpg, extraídos do pacote oficial "BR - Fotos de candidatos" do <a href="https://dadosabertos.tse.jus.br/pt_BR/dataset/candidatos-2026/resource/e8f0a648-b438-4117-814a-f32f4c4977c8" target="_blank" rel="noopener noreferrer">Portal de Dados Abertos do TSE</a>, sob licença Creative Commons Atribuição (CC BY). Fotografias exibidas com recorte circular; seus arquivos originais não foram alterados. Recomenda-se revisão jurídica antes de ampla divulgação eleitoral.</div>
+      <div class="disclaimer">DEMONSTRAÇÃO INFORMATIVA. Este desafio não registra, mede nem divulga intenção de voto. O clique identifica somente uma resposta sobre índices de documentos públicos; as barras mostram o desempenho individual nesta sessão. Para diminuir repetições nas próximas rodadas, este navegador guarda localmente apenas os identificadores de perguntas selecionadas, sem enviar informações a servidor. O histórico pode ser apagado com os dados do navegador; perguntas voltam a aparecer quando o banco disponível se esgota. Não há contagem nacional nem banco de dados de participantes. Projeto independente, sem vínculo com o TSE, partidos ou campanhas. Fotografias de candidaturas: arquivos FBR280002542548_div.jpg e FBR280002551544_div.jpg, extraídos do pacote oficial "BR - Fotos de candidatos" do <a href="https://dadosabertos.tse.jus.br/pt_BR/dataset/candidatos-2026/resource/e8f0a648-b438-4117-814a-f32f4c4977c8" target="_blank" rel="noopener noreferrer">Portal de Dados Abertos do TSE</a>, sob licença Creative Commons Atribuição (CC BY). Fotografias exibidas com recorte circular; seus arquivos originais não foram alterados. Recomenda-se revisão jurídica antes de ampla divulgação eleitoral.</div>
     </section>
   </main>
 </div>
 <script>
+
   const sources = {
     lula: 'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/lula-propostas-de-governo',
     flavio: 'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro'
   };
-  const questions = [
-    {q:'Qual plano apresenta expressamente o fim da escala 6×1 e a redução da jornada para 40 horas semanais?', correct:'lula', explain:'O índice oficial das propostas de Lula inclui “Fim da escala 6x1 e redução da jornada (40h)” no eixo Economia, Trabalho e Responsabilidade Fiscal.'},
-    {q:'Em qual plano aparece a iniciativa chamada “INSS sem fila”?', correct:'flavio', explain:'O índice oficial do plano de Flávio Bolsonaro identifica “INSS sem fila” em Saúde Pública e Assistência.'},
-    {q:'Qual plano inclui expressamente a proposta de escolas cívico-militares?', correct:'flavio', explain:'O índice das propostas de Flávio Bolsonaro apresenta “Escolas cívico-militares” no eixo Educação.'},
-    {q:'Qual plano lista o programa Pé-de-Meia no tema do ensino médio?', correct:'lula', explain:'O índice oficial das propostas de Lula inclui “Ensino médio (Pé-de-Meia)” no eixo Educação, Ciência e Meio Ambiente.'},
-    {q:'Em qual plano o “Brasil Sorridente” é citado no tema de saúde bucal?', correct:'lula', explain:'O índice do plano de Lula menciona “Saúde bucal (Brasil Sorridente)” no eixo Saúde Pública e Assistência.'},
-    {q:'Qual plano apresenta o tópico “Bônus de internet”?', correct:'flavio', explain:'O índice oficial das propostas de Flávio Bolsonaro inclui “Bônus de internet” no eixo Direitos Humanos, Equidade e Inclusão Social.'}
-  ];
-  let index=0, answered=false, correctCount=0;
-  const $=id=>document.getElementById(id);
-  function render(){
+  const questionBank = [
+    {
+        "id": "lula-01",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Fim da escala 6x1 e redução da jornada (40h)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Fim da escala 6x1 e redução da jornada (40h)” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 73 do plano)."
+    },
+    {
+        "id": "lula-02",
+        "q": "Qual plano de governo tem o item “Ensino médio (Pé-de-Meia)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Ensino médio (Pé-de-Meia)” ao eixo Educação, Ciência e Meio Ambiente (p. 6 do plano)."
+    },
+    {
+        "id": "lula-03",
+        "q": "No índice temático de qual candidatura aparece “Saúde bucal (Brasil Sorridente)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Saúde bucal (Brasil Sorridente)” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-04",
+        "q": "O assunto identificado como “Desenrola Brasil e renegociação de dívidas” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Desenrola Brasil e renegociação de dívidas” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 6 do plano)."
+    },
+    {
+        "id": "lula-05",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Economia popular e solidária (Lei Paul Singer)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Economia popular e solidária (Lei Paul Singer)” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 73 do plano)."
+    },
+    {
+        "id": "lula-06",
+        "q": "Qual plano de governo tem o item “Infraestrutura e logística (Novo PAC)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Infraestrutura e logística (Novo PAC)” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 6 do plano)."
+    },
+    {
+        "id": "lula-07",
+        "q": "No índice temático de qual candidatura aparece “Nova Indústria Brasil (NIB) e neoindustrialização”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Nova Indústria Brasil (NIB) e neoindustrialização” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 6 do plano)."
+    },
+    {
+        "id": "lula-08",
+        "q": "O assunto identificado como “Plano de Transformação Ecológica (PTE)” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Plano de Transformação Ecológica (PTE)” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 6 do plano)."
+    },
+    {
+        "id": "lula-09",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Atenção especializada e redução de filas (Agora tem Especialistas)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Atenção especializada e redução de filas (Agora tem Especialistas)” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-10",
+        "q": "Qual plano de governo tem o item “Complexo Econômico e Industrial da Saúde (CEIS)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Complexo Econômico e Industrial da Saúde (CEIS)” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-11",
+        "q": "No índice temático de qual candidatura aparece “Cuidados e corresponsabilização (Política Nacional de Cuidados)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Cuidados e corresponsabilização (Política Nacional de Cuidados)” ao eixo Saúde Pública e Assistência (p. 18 do plano)."
+    },
+    {
+        "id": "lula-12",
+        "q": "O assunto identificado como “Farmácia Popular e distribuição de medicamentos” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Farmácia Popular e distribuição de medicamentos” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-13",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Mais Médicos e fixação de profissionais”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Mais Médicos e fixação de profissionais” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-14",
+        "q": "Qual plano de governo tem o item “Saúde mental (CAPS)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Saúde mental (CAPS)” ao eixo Saúde Pública e Assistência (p. 18 do plano)."
+    },
+    {
+        "id": "lula-15",
+        "q": "No índice temático de qual candidatura aparece “Vacinação (recuperação das coberturas vacinais)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Vacinação (recuperação das coberturas vacinais)” ao eixo Saúde Pública e Assistência (p. 6 do plano)."
+    },
+    {
+        "id": "lula-16",
+        "q": "O assunto identificado como “Crimes financeiros, cibernéticos e Celular Seguro” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Crimes financeiros, cibernéticos e Celular Seguro” ao eixo Segurança Pública e Justiça (p. 18 do plano)."
+    },
+    {
+        "id": "lula-17",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Ministério da Segurança Pública”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Ministério da Segurança Pública” ao eixo Segurança Pública e Justiça (p. 26 do plano)."
+    },
+    {
+        "id": "lula-18",
+        "q": "Qual plano de governo tem o item “Sistema prisional e penitenciário (Plano Pena Justa)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Sistema prisional e penitenciário (Plano Pena Justa)” ao eixo Segurança Pública e Justiça (p. 26 do plano)."
+    },
+    {
+        "id": "lula-19",
+        "q": "No índice temático de qual candidatura aparece “Alfabetização (Compromisso Nacional Criança Alfabetizada)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Alfabetização (Compromisso Nacional Criança Alfabetizada)” ao eixo Educação, Ciência e Meio Ambiente (p. 30 do plano)."
+    },
+    {
+        "id": "lula-20",
+        "q": "O assunto identificado como “Ensino técnico e Institutos Federais” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Ensino técnico e Institutos Federais” ao eixo Educação, Ciência e Meio Ambiente (p. 30 do plano)."
+    },
+    {
+        "id": "lula-21",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Aliança Global contra a Fome e a Pobreza”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Aliança Global contra a Fome e a Pobreza” ao eixo Política Externa e Inserção Global (p. 58 do plano)."
+    },
+    {
+        "id": "lula-22",
+        "q": "Qual plano de governo tem o item “COP30, Fundo Florestas Tropicais e diplomacia climática” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “COP30, Fundo Florestas Tropicais e diplomacia climática” ao eixo Política Externa e Inserção Global (p. 69 do plano)."
+    },
+    {
+        "id": "lula-23",
+        "q": "No índice temático de qual candidatura aparece “Cultura (Fomento, Lei Rouanet, Aldir Blanc, Cultura Viva)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Cultura (Fomento, Lei Rouanet, Aldir Blanc, Cultura Viva)” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 40 do plano)."
+    },
+    {
+        "id": "lula-24",
+        "q": "O assunto identificado como “Esporte (Bolsa Atleta, Arenas Brasil)” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Esporte (Bolsa Atleta, Arenas Brasil)” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 43 do plano)."
+    },
+    {
+        "id": "lula-25",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Pessoas com deficiência (Viver sem Limites, educação inclusiva)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Pessoas com deficiência (Viver sem Limites, educação inclusiva)” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 18 do plano)."
+    },
+    {
+        "id": "lula-26",
+        "q": "Qual plano de governo tem o item “Agricultura familiar (Plano Safra, Pronaf)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Agricultura familiar (Plano Safra, Pronaf)” ao eixo Questão Agrária, Propriedade e Direito à Cidade (p. 58 do plano)."
+    },
+    {
+        "id": "lula-27",
+        "q": "No índice temático de qual candidatura aparece “Biocombustíveis (Combustível do Futuro)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Biocombustíveis (Combustível do Futuro)” ao eixo Questão Agrária, Propriedade e Direito à Cidade (p. 63 do plano)."
+    },
+    {
+        "id": "lula-28",
+        "q": "O assunto identificado como “Fundo Amazônia e Fundo Clima” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Fundo Amazônia e Fundo Clima” ao eixo Questão Agrária, Propriedade e Direito à Cidade (p. 55 do plano)."
+    },
+    {
+        "id": "lula-29",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Mercado de carbono e Sistema Brasileiro de Comércio de Emissões”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Mercado de carbono e Sistema Brasileiro de Comércio de Emissões” ao eixo Questão Agrária, Propriedade e Direito à Cidade (p. 50 do plano)."
+    },
+    {
+        "id": "lula-30",
+        "q": "Qual plano de governo tem o item “Portal da Transparência” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Portal da Transparência” ao eixo Governança, Transparência e Reformas de Estado (p. 16 do plano)."
+    },
+    {
+        "id": "flavio-01",
+        "q": "Em qual índice oficial de propostas aparece o tópico “INSS sem fila”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “INSS sem fila” ao eixo Saúde Pública e Assistência (p. 26 do plano)."
+    },
+    {
+        "id": "flavio-02",
+        "q": "Qual plano de governo tem o item “Escolas cívico-militares” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Escolas cívico-militares” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-03",
+        "q": "No índice temático de qual candidatura aparece “Bônus de internet”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Bônus de internet” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 18 do plano)."
+    },
+    {
+        "id": "flavio-04",
+        "q": "O assunto identificado como “Banco nacional de vagas de emprego” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Banco nacional de vagas de emprego” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 44 do plano)."
+    },
+    {
+        "id": "flavio-05",
+        "q": "Em qual índice oficial de propostas aparece o tópico “CAIXA - banco da prosperidade”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “CAIXA - banco da prosperidade” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 46 do plano)."
+    },
+    {
+        "id": "flavio-06",
+        "q": "Qual plano de governo tem o item “Primeira empresa” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Primeira empresa” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 45 do plano)."
+    },
+    {
+        "id": "flavio-07",
+        "q": "No índice temático de qual candidatura aparece “Primeiro emprego”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Primeiro emprego” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 43 do plano)."
+    },
+    {
+        "id": "flavio-08",
+        "q": "O assunto identificado como “Trabalhador acima de 50 anos” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Trabalhador acima de 50 anos” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 43 do plano)."
+    },
+    {
+        "id": "flavio-09",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Agendamento ágil por inteligência artificial”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Agendamento ágil por inteligência artificial” ao eixo Saúde Pública e Assistência (p. 25 do plano)."
+    },
+    {
+        "id": "flavio-10",
+        "q": "Qual plano de governo tem o item “Digitalização do SUS” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Digitalização do SUS” ao eixo Saúde Pública e Assistência (p. 25 do plano)."
+    },
+    {
+        "id": "flavio-11",
+        "q": "No índice temático de qual candidatura aparece “Idosos - Casa segura para envelhecer”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Idosos - Casa segura para envelhecer” ao eixo Saúde Pública e Assistência (p. 38 do plano)."
+    },
+    {
+        "id": "flavio-12",
+        "q": "O assunto identificado como “Prontuário eletrônico único” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Prontuário eletrônico único” ao eixo Saúde Pública e Assistência (p. 25 do plano)."
+    },
+    {
+        "id": "flavio-13",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Remédio à domicílio”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Remédio à domicílio” ao eixo Saúde Pública e Assistência (p. 37 do plano)."
+    },
+    {
+        "id": "flavio-14",
+        "q": "Qual plano de governo tem o item “Retorno sem fila pós seguro desemprego” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Retorno sem fila pós seguro desemprego” ao eixo Saúde Pública e Assistência (p. 42 do plano)."
+    },
+    {
+        "id": "flavio-15",
+        "q": "No índice temático de qual candidatura aparece “Reconhecimento facial”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Reconhecimento facial” ao eixo Segurança Pública (p. 15 do plano)."
+    },
+    {
+        "id": "flavio-16",
+        "q": "O assunto identificado como “Progressão de pena zero para crimes hediondos” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Progressão de pena zero para crimes hediondos” ao eixo Segurança Pública (p. 15 do plano)."
+    },
+    {
+        "id": "flavio-17",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Alfabetização (método fônico)”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Alfabetização (método fônico)” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-18",
+        "q": "Qual plano de governo tem o item “Escola sem doutrinação” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Escola sem doutrinação” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-19",
+        "q": "No índice temático de qual candidatura aparece “Escola nas férias”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Escola nas férias” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-20",
+        "q": "O assunto identificado como “Voucher educacional em falta de vagas” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Voucher educacional em falta de vagas” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-21",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Reforço escolar - Programa Acolher”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Reforço escolar - Programa Acolher” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-22",
+        "q": "Qual plano de governo tem o item “Voucher-creche” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Voucher-creche” ao eixo Educação (p. 21 do plano)."
+    },
+    {
+        "id": "flavio-23",
+        "q": "No índice temático de qual candidatura aparece “Adesão à OCDE”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Adesão à OCDE” ao eixo Política Externa e Inserção Global (p. 63 do plano)."
+    },
+    {
+        "id": "flavio-24",
+        "q": "O assunto identificado como “ClarIA (assistente virtual)” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “ClarIA (assistente virtual)” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 18 do plano)."
+    },
+    {
+        "id": "flavio-25",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Central da Mulher”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Central da Mulher” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 17 do plano)."
+    },
+    {
+        "id": "flavio-26",
+        "q": "Qual plano de governo tem o item “Saúde para Elas” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Saúde para Elas” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 21 do plano)."
+    },
+    {
+        "id": "flavio-27",
+        "q": "No índice temático de qual candidatura aparece “Lixão zero”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Lixão zero” ao eixo Questão Agrária e Meio Ambiente (p. 47 do plano)."
+    },
+    {
+        "id": "flavio-28",
+        "q": "O assunto identificado como “100% dos serviços públicos digitalizados” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “100% dos serviços públicos digitalizados” ao eixo Governança, Transparência e Reformas de Estado (p. 24 do plano)."
+    },
+    {
+        "id": "flavio-29",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Fim da reeleição”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Fim da reeleição” ao eixo Governança, Transparência e Reformas de Estado (p. 66 do plano)."
+    },
+    {
+        "id": "flavio-30",
+        "q": "Qual plano de governo tem o item “Revogaço regulatório” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Revogaço regulatório” ao eixo Governança, Transparência e Reformas de Estado (p. 27 do plano)."
+    }
+];
+  const QUESTIONS_PER_ROUND = 6;
+  const HISTORY_KEY = 'desafio-brasil-2026-historico-v3';
+  const $ = id => document.getElementById(id);
+  let roundQuestions = [], index = 0, answered = false, correctCount = 0, finished = false;
+  const initialInstructions = 'Este desafio verifica a identificação de itens nos índices temáticos dos planos divulgados pelo TSE. A presença de um item em um índice não significa exclusividade da ideia nem discordância do outro candidato. Não é uma pergunta sobre preferência eleitoral.';
+
+  function shuffled(items) {
+    const a = items.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function readHistory() {
+    try {
+      const saved=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');
+      return Array.isArray(saved)?saved.filter(id=>typeof id==='string'):[];
+    } catch(_) { return []; }
+  }
+  function writeHistory(ids) {
+    try { localStorage.setItem(HISTORY_KEY,JSON.stringify(ids)); } catch(_) { /* Navegação privada: permite continuar sem armazenar histórico. */ }
+  }
+  function selectRound() {
+    let seen=readHistory();
+    let next=[];
+    for (const person of ['lula','flavio']) {
+      const pool=questionBank.filter(q=>q.correct===person);
+      let available=pool.filter(q=>!seen.includes(q.id));
+      if (available.length<3) {
+        const ids=new Set(pool.map(q=>q.id));
+        seen=seen.filter(id=>!ids.has(id));
+        available=pool;
+      }
+      const chosen=shuffled(available).slice(0,3);
+      next.push(...chosen);
+      seen.push(...chosen.map(q=>q.id));
+    }
+    writeHistory(seen);
+    return shuffled(next);
+  }
+  function render() {
     answered=false;
-    let q=questions[index];
-    $('question-position').textContent=`PERGUNTA ${index+1} DE ${questions.length}`;
+    const q=roundQuestions[index];
+    $('question-position').textContent=`PERGUNTA ${index+1} DE ${QUESTIONS_PER_ROUND}`;
     $('question-title').textContent=q.q;
     $('answer-status').textContent='TOQUE EM UMA FOTO ABAIXO';
     $('answer-result').className='result';
     $('next').disabled=true;
-    for(const k of ['lula','flavio']){
-      const b=$('choose-'+k);b.disabled=false;b.classList.remove('selected','correct');b.querySelector('.tap').textContent='Escolher esta foto';
+    $('next').textContent=index===QUESTIONS_PER_ROUND-1?'Ver meu resultado final →':'Próxima pergunta →';
+    for (const k of ['lula','flavio']) {
+      const b=$('choose-'+k);
+      b.disabled=false;
+      b.classList.remove('selected','correct');
+      b.querySelector('.tap').textContent='Escolher esta foto';
     }
   }
-  function updateStats(){
-    const n=index+(answered?1:0);
+  function updateStats() {
+    const n=finished?QUESTIONS_PER_ROUND:index+(answered?1:0);
     const success=n?Math.round(correctCount/n*100):0;
-    $('progress-num').textContent=`${n}/${questions.length}`;
-    $('progress-bar').style.width=(n/questions.length*100)+'%';
+    $('progress-num').textContent=`${n}/${QUESTIONS_PER_ROUND}`;
+    $('progress-bar').style.width=(n/QUESTIONS_PER_ROUND*100)+'%';
     $('score-num').textContent=success+'%';
     $('score-bar').style.width=success+'%';
   }
-  function answer(chosen){
-    if(answered)return;
+  function answer(chosen) {
+    if(answered||finished)return;
     answered=true;
-    const q=questions[index],right=chosen===q.correct;
+    const q=roundQuestions[index],right=chosen===q.correct;
     if(right)correctCount++;
-    for(const k of ['lula','flavio']){
+    for(const k of ['lula','flavio']) {
       const b=$('choose-'+k);b.disabled=true;
       if(k===chosen)b.classList.add('selected');
       if(k===q.correct)b.classList.add('correct');
-      b.querySelector('.tap').textContent=k===q.correct?'Consta neste plano':(k===chosen?'Sua escolha':'');
+      b.querySelector('.tap').textContent=k===q.correct?'Consta neste índice':(k===chosen?'Sua escolha':'');
     }
     $('answer-status').textContent=right?'RESPOSTA CORRETA':'VEJA A RESPOSTA';
     $('result-heading').textContent=right?'✓ Você acertou!':'Resposta revelada';
     $('result-explain').textContent=q.explain;
     $('result-source').href=sources[q.correct];
-    $('result-source').textContent=`Conferir o plano no TSE →`;
+    $('result-source').textContent='Conferir o índice no TSE →';
     $('answer-result').className='result visible'+(right?'':' wrong');
     $('next').disabled=false;
-    $('next').textContent=index===questions.length-1?'Ver meu resultado final →':'Próxima pergunta →';
     updateStats();
   }
-  function nextQuestion(){
+  function nextQuestion() {
+    if (finished) { startRound(); return; }
     if(!answered)return;
-    if(index<questions.length-1){index++;render();document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});return;}
-    const pct=Math.round(correctCount/questions.length*100);
+    if(index<QUESTIONS_PER_ROUND-1) {
+      index++;render();
+      document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
+      return;
+    }
+    finished=true;
+    const pct=Math.round(correctCount/QUESTIONS_PER_ROUND*100);
     $('question-position').textContent='DESAFIO CONCLUÍDO';
     $('answer-status').textContent='SEU RESULTADO PESSOAL';
-    $('question-title').textContent=`Você acertou ${correctCount} de ${questions.length} perguntas (${pct}%).`;
-    document.querySelector('.instruction').textContent='O desafio terminou. Continue explorando as propostas completas nos links do TSE. Seu desempenho não foi enviado nem registrado.';
+    $('question-title').textContent=`Você acertou ${correctCount} de ${QUESTIONS_PER_ROUND} perguntas (${pct}%).`;
+    document.querySelector('.instruction').textContent='Desafio concluído! Você pode iniciar outra rodada com seis perguntas diferentes. O resultado não é enviado nem registrado em um sistema nacional.';
     document.querySelector('.grid').style.display='none';
     $('answer-result').className='result';
-    $('next').textContent='Refazer o desafio ↻';
+    $('next').textContent='Nova rodada com outras perguntas ↻';
     $('next').disabled=false;
-    $('next').onclick=function(){index=0;answered=false;correctCount=0;document.querySelector('.grid').style.display='grid';document.querySelector('.instruction').textContent='O desafio pergunta em qual plano de governo o tema aparece expressamente, conforme o índice oficial do TSE. Não é uma pergunta sobre preferência eleitoral.';$('next').onclick=nextQuestion;render();updateStats();document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'})};
+    updateStats();
     document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
   }
-  render(); updateStats();
+  function startRound() {
+    roundQuestions=selectRound();
+    index=0; answered=false;correctCount=0;finished=false;
+    document.querySelector('.grid').style.display='grid';
+    document.querySelector('.instruction').textContent=initialInstructions;
+    render();updateStats();
+    if(document.readyState==='complete') document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  document.querySelector('.instruction').textContent=initialInstructions;
+  startRound();
 </script>
 </body>
 </html>
