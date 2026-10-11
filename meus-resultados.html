@@ -23,7 +23,20 @@
     h2{font-size:21px;margin:0 0 11px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;min-width:440px}th,td{padding:12px 10px;text-align:left;border-bottom:1px solid #36516a}th{color:#d4e4f5;font-size:12px;text-transform:uppercase;letter-spacing:.05em}td:nth-child(2),td:nth-child(3),th:nth-child(2),th:nth-child(3){text-align:right}td{font-variant-numeric:tabular-nums}
     .foot{border-top:1px solid #344c63;padding-top:18px;margin-top:28px;font-size:12px;color:#bbcddd;line-height:1.7}
     [hidden]{display:none!important}
-    @media(max-width:600px){main{padding:17px 14px 40px}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1 / -1}.buttons .btn{flex:1 1 160px}}
+    @media(max-width:600px){
+      main{padding:17px 14px 40px}
+      .stats{grid-template-columns:1fr 1fr}
+      .stats .stat:last-child{grid-column:1 / -1}
+      .buttons .btn{flex:1 1 160px}
+      /* Exibe as três colunas inteiras em celulares, sem rolagem horizontal. */
+      .tablewrap{overflow-x:visible}
+      table{width:100%;min-width:0;table-layout:fixed;font-size:12px}
+      th,td{padding:10px 4px;overflow-wrap:anywhere}
+      th{font-size:10px;letter-spacing:0;line-height:1.3}
+      th:first-child,td:first-child{width:45%}
+      th:nth-child(2),td:nth-child(2){width:19%}
+      th:nth-child(3),td:nth-child(3){width:36%}
+    }
     @media(prefers-reduced-motion:reduce){.bar span{transition:none}}
   </style>
 </head>
@@ -31,9 +44,9 @@
 <main>
   <header>
     <div class="brand"><span class="flag" aria-hidden="true">BR</span>DESAFIO BRASIL 2026</div>
-    <a href="teste-registro.html">← Voltar ao desafio</a>
+    <a href="index.html">← Voltar ao desafio</a>
   </header>
-  <p class="eyebrow">Acompanhamento privado • fase piloto</p>
+  <p class="eyebrow">Acompanhamento privado • meus resultados</p>
   <h1>Meus <span>resultados</span></h1>
   <p class="lead">Acompanhe as rodadas que você autorizou registrar. Só a sua conta Google pode consultar estes resultados; não há placar nacional público nesta versão.</p>
 
@@ -67,7 +80,7 @@
     </section>
   </section>
 
-  <p class="foot">Painel experimental do DESAFIO BRASIL 2026. Exibe exclusivamente registros associados à conta autenticada, conforme as regras do Firestore. O estado é informado pelo participante e as pontuações ainda não possuem validação independente; portanto, estes dados não constituem pesquisa eleitoral nem estatísticas nacionais verificadas. Não há acesso público aos resultados individuais. Projeto independente, sem vínculo com o TSE, partidos ou campanhas.</p>
+  <p class="foot">Painel privado do DESAFIO BRASIL 2026. Exibe exclusivamente registros associados à conta autenticada, conforme as regras do Firestore. O estado é informado pelo participante e as pontuações ainda não possuem validação independente; portanto, estes dados não constituem pesquisa eleitoral nem estatísticas nacionais verificadas. Não há acesso público aos resultados individuais. Projeto independente, sem vínculo com o TSE, partidos ou campanhas.</p>
 </main>
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js';

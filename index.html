@@ -6,6 +6,21 @@
   <meta name="theme-color" content="#0b1d39" />
   <meta name="description" content="Desafio informativo: você sabe a qual plano de governo pertencem estas propostas? Fontes oficiais do TSE." />
   <title>DESAFIO BRASIL 2026 | Quem propõe o quê?</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Desafio Brasil 2026" />
+  <meta property="og:title" content="DESAFIO BRASIL 2026 — Quem propõe o quê?" />
+  <meta property="og:description" content="60 perguntas sobre propostas de governo. Seis por rodada, resultado imediato e participação gratuita." />
+  <meta property="og:url" content="https://criacoesemgeral.github.io/desafio-brasil-2026/" />
+  <meta property="og:image" content="https://criacoesemgeral.github.io/desafio-brasil-2026/desafio-brasil-capa.jpg" />
+  <meta property="og:image:secure_url" content="https://criacoesemgeral.github.io/desafio-brasil-2026/desafio-brasil-capa.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Desafio Brasil 2026: quiz informativo com propostas de governo, seis perguntas por rodada, participação gratuita." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://criacoesemgeral.github.io/desafio-brasil-2026/desafio-brasil-capa.jpg" />
+  <link rel="canonical" href="https://criacoesemgeral.github.io/desafio-brasil-2026/" />
   <style>
     :root { color-scheme: dark; --bg:#071426; --panel:#10233e; --border:#28445f; --text:#f8fafc; --muted:#b6c5d9; --accent:#f1c761; --cyan:#38bdf8; --green:#67dfb3; --radius:20px; }
     *,*::before,*::after {box-sizing:border-box}
@@ -65,33 +80,176 @@
     .sr-only {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     @media (max-width:600px){header{padding:15px 0}.meta{font-size:10px}.hero{margin:27px auto 16px}.chip{margin-top:12px}.grid{gap:10px;margin:19px auto}.candidate{min-height:192px;padding:14px 5px}.candidate small{font-size:12px}.candidate .tap{font-size:10px}.stats{gap:10px}.stat{padding:12px}.stathead{flex-wrap:wrap;font-size:12px}.stathead b{font-size:17px}.panel{padding:17px}.wrap{padding-left:14px;padding-right:14px}.actions .btn{width:100%}}
     @media (prefers-reduced-motion:reduce){.fill,.candidate{transition:none}}
-  </style>
+
+    /* Integração de autenticação — visual preservado */
+    .login-panel{max-width:770px;margin:0 auto 22px;padding:19px 21px;border:1px solid #365f7f;border-radius:18px;background:linear-gradient(135deg,#122a46,#10223c)}
+    .login-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .login-panel h2{margin:0;font-size:clamp(19px,2.5vw,23px)}
+    .login-panel p{margin:7px 0 13px;font-size:13px;color:#d5e4f4;line-height:1.55}
+    .login-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .login-button{border:1px solid #6b87a5;border-radius:11px;padding:10px 17px;min-height:43px;background:#fff;color:#20252d;font-weight:750}
+    .login-button.out{background:transparent;color:#fff;border-color:#5d83a7}
+    .login-button:disabled{opacity:.6;cursor:wait}
+    .login-status{font-size:13px;color:#ccdef3;line-height:1.5;min-height:20px}
+    .login-panel details{margin-top:14px;color:#b9cee3;font-size:12px}
+    .login-panel details summary{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+    .login-panel details p{font-size:12px}
+    @media(max-width:600px){.login-panel{padding:15px}.login-controls{align-items:stretch}.login-button{width:100%}.login-status{width:100%}}
+  
+    /* Acesso simples: jogar primeiro, login opcional e discreto */
+    .access-kicker{font-size:11px;font-weight:850;letter-spacing:.14em;color:#f0cb70;margin-bottom:7px}
+    .login-panel .guest-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:2px 0 12px;padding:13px 24px;min-height:50px;border-radius:12px;background:#f1c761;color:#17263a;font-size:16px;font-weight:850;text-decoration:none}
+    .login-panel .guest-button:hover{background:#ffda7f}
+    .access-explain{font-size:12px;color:#c2d6ea;line-height:1.6}
+    .login-panel .optional-login{margin-top:16px;padding:11px 13px;border:1px solid #3c6688;border-radius:11px}
+    .login-panel .optional-login>summary{font-size:13px;font-weight:700;color:#d6e9fc;text-decoration:none}
+    .optional-login[open]>summary{margin-bottom:10px}
+    .optional-login .login-controls{margin-top:10px}
+    .optional-login .login-helper{margin:3px 0 8px}
+    .optional-login .privacy-details{padding:0 0 2px;margin-top:12px}
+    .optional-login .privacy-details summary{font-size:12px;font-weight:400}
+    #question-area{scroll-margin-top:18px}
+    @media(max-width:600px){.login-panel .guest-button{width:100%}.login-panel .optional-login{padding:11px}}
+
+    /* Registro nacional: etapa-piloto sem placar público */
+    .registro-piloto {margin-top:16px;padding:15px;border:1px solid #426985;border-radius:12px;background:#0d2743}
+    .registro-piloto[hidden]{display:none}
+    .registro-piloto h3{font-size:17px;margin:0 0 5px;color:#fff}
+    .registro-piloto p{color:#d2e2f3;margin:7px 0 10px;font-size:13px}
+    .registro-piloto label:not(.lgpd){display:block;font-weight:700;font-size:13px;margin-bottom:5px}
+    .registro-piloto select{display:block;max-width:100%;min-height:44px;border:1px solid #799ab5;color:#13263c;background:#fff;border-radius:9px;padding:8px 12px;font-size:15px;margin:8px 0 12px;width:min(350px,100%)}
+    .registro-piloto .lgpd{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.5;color:#e0ecfa;margin-bottom:12px}
+    .registro-piloto .lgpd input{height:18px;width:18px;flex-shrink:0;margin-top:2px}
+    .registro-piloto .btn-uf{font-size:14px;padding:10px 16px;min-height:44px}
+    .registro-piloto .status-uf{font-size:13px;color:#b8e5fe;margin:12px 0 0;min-height:20px}
+
+    /* Interface pública: links práticos sem alterar a lógica comprovada do quiz */
+    .topnav { display:flex;gap:13px;align-items:center;flex-wrap:wrap;justify-content:flex-end }
+    .topnav a {font-size:12px;font-weight:800;border:1px solid #3f6689;border-radius:10px;padding:9px 12px;text-decoration:none;color:#dff4ff}
+    .topnav a:hover,.history-link:hover{background:#234562}
+    .quick-actions {display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 13px}
+    .share-action {border:1px solid #587d9e;border-radius:11px;background:#173956;color:#e8f3ff;font-weight:750;padding:12px 17px;min-height:50px}
+    .share-action:hover{background:#214b71}
+    .history-link {display:inline-block;margin:13px 0 3px;font-size:13px;font-weight:750;padding:9px 12px;border:1px solid #47708f;border-radius:10px;text-decoration:none}
+    .share-status {min-height:19px;font-size:12px;color:#c4deef}
+    .login-panel .guest-button {margin-bottom:0}
+    @media(max-width:600px){.topnav{width:100%;justify-content:center}.topnav a{flex:1;text-align:center}.quick-actions{align-items:stretch}.share-action{flex:1}.login-panel .guest-button{flex:1}}
+
+    /* Acabamento da versão pública, leitura limpa e acesso rápido */
+    .brand-link{color:#fff;text-decoration:none}
+    .brand-link:hover{color:#f8dd9b}
+    .brand-link:focus-visible{border-radius:8px}
+    .flag{background:linear-gradient(140deg,#17865b,#0c6b61);box-shadow:inset 0 0 0 1px #72b9a466}
+    .hero{margin-top:34px}
+    .login-panel{box-shadow:0 18px 44px #01081755}
+    .quick-benefits{display:flex;flex-wrap:wrap;gap:7px 17px;margin:1px 0 15px;font-size:12px;color:#e6f4ff;font-weight:600}
+    .quick-benefits span{white-space:normal}
+    .quick-actions .guest-button{box-shadow:0 5px 14px #0004}
+    .share-action{display:inline-flex;gap:8px;align-items:center;justify-content:center;letter-spacing:.015em}
+    .share-action svg{flex:none}
+    .share-status:not(:empty){margin:2px 0 10px;color:#a9e3ff;font-size:13px}
+    .topnav a{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+    .candidate:focus-visible{outline:3px solid #f6d478;outline-offset:4px}
+    .about{background:#0a1c31;border:1px solid #27445f;border-radius:18px;padding:20px;margin-top:10px}
+    .about-heading{display:flex;align-items:flex-start;gap:13px}
+    .about-heading h3{margin:0 0 4px}
+    .about-heading p{margin:0 0 7px}
+    .verified-mark{display:inline-flex;align-items:center;justify-content:center;flex:none;width:35px;height:35px;border:1px solid #4b867a;background:#163b3d;border-radius:50%;color:#a4edcc;font-weight:800}
+    .source-links{margin:11px 0 14px}
+    .source-links a{background:#133250;border:1px solid #426d91;padding:11px 14px;min-height:44px;display:inline-flex;align-items:center;font-size:13px}
+    .source-links a:hover{background:#214563}
+    .short-disclaimer{color:#d1deec;font-size:12px!important;padding:12px 0;border-top:1px solid #27435e}
+    .legal-details{border-top:1px solid #2d4b67;padding:1px 0}
+    .legal-details summary{list-style:none;cursor:pointer;font-weight:750;padding:13px 22px 13px 0;color:#e4f0fc;position:relative;font-size:13px}
+    .legal-details summary::-webkit-details-marker{display:none}
+    .legal-details summary::after{content:'+';position:absolute;right:0;font-size:20px;top:7px;color:#f1c761}
+    .legal-details[open] summary::after{content:'−'}
+    .legal-content{padding:0 0 11px}
+    .legal-content p{font-size:13px;margin:3px 0 10px}
+    .footer-line{border-top:1px solid #284660;margin-top:6px;padding-top:15px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#adc6da;font-size:11px}
+    .footer-line a{text-decoration:none}
+    .login-panel .guest-button:focus-visible,.share-action:focus-visible,.legal-details summary:focus-visible,.optional-login summary:focus-visible{outline:3px solid #f1c761;outline-offset:4px}
+    @media(max-width:600px){
+      .brand{font-size:14px}
+      .hero{margin-top:24px}
+      .quick-actions{flex-direction:column}
+      .quick-actions .guest-button,.share-action{width:100%}
+      .about{padding:16px;margin-top:9px}
+      .source-links{flex-direction:column}
+      .source-links a{justify-content:center}
+      .footer-line{flex-direction:column;align-items:flex-start}
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+</style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="brand"><span class="flag" aria-hidden="true">🇧🇷</span> DESAFIO BRASIL 2026</div>
-    <div class="meta">INFORMAÇÃO • FONTES OFICIAIS<br>2º TURNO PRESIDENCIAL</div>
+    <a class="brand brand-link" href="#inicio" aria-label="Ir ao início do Desafio Brasil 2026"><span class="flag" aria-hidden="true">🇧🇷</span><span>DESAFIO BRASIL 2026</span></a>
+    <nav class="topnav" aria-label="Links de acesso"><a href="meus-resultados.html" aria-label="Consultar meu histórico pessoal de respostas">MEU HISTÓRICO ↗</a></nav>
   </header>
   <main>
-    <section class="hero" aria-labelledby="site-title">
+    <section class="hero" id="inicio" aria-labelledby="site-title">
       <div class="eyebrow">QUEM PROPÕE O QUÊ?</div>
       <h1 id="site-title">DESAFIO <em>BRASIL 2026</em></h1>
-      <p class="sub">Você sabe identificar quais propostas constam dos planos de governo de Lula e Flávio Bolsonaro? Clique na foto, descubra a resposta e confira o documento do TSE.</p>
+      <p class="sub">Você sabe identificar em qual plano de governo aparece cada proposta? Responda, descubra a resposta e confira a fonte oficial.</p>
       <div class="chip">60 perguntas no banco • 6 por rodada • 2 candidatos</div>
     </section>
-    <section class="panel" aria-labelledby="question-title">
-      <div class="topline"><span id="question-position">PERGUNTA 1 DE 6</span><span id="answer-status">TOQUE EM UMA FOTO ABAIXO</span></div>
+    <section class="login-panel" aria-labelledby="access-title">
+      <div class="access-kicker">PARTICIPE EM SEGUNDOS • GRÁTIS</div>
+      <h2 id="access-title">Pronto para o desafio?</h2>
+      <p>Responda a seis perguntas sobre os planos de governo, conheça as explicações e descubra seu resultado na hora. Depois, tente outras perguntas!</p>
+      <div class="quick-actions"><a class="guest-button" href="#question-area" aria-label="Ir para as perguntas e começar o desafio">COMEÇAR DESAFIO <span aria-hidden="true">↓</span></a><button type="button" class="share-action" id="copiar-link" aria-describedby="mensagem-link" aria-label="Compartilhar endereço oficial do Desafio Brasil 2026"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4M8.7 13.3l6.6 4.4"/></svg> COMPARTILHAR</button></div><div id="mensagem-link" class="share-status" role="status" aria-live="polite"></div>
+      <div class="quick-benefits" aria-label="Vantagens do desafio"><span>✓ Sem cadastro obrigatório</span><span>✓ Resultado imediato</span><span>✓ Gratuito no celular</span></div>
+      <div class="access-explain">Comece sem conta e sem informar e-mail. Para guardar seus resultados, escolha a entrada opcional com Google abaixo. Este quiz não é uma votação nem mede intenção de voto.</div>
+      <details class="optional-login" id="login-options">
+        <summary id="login-summary">Salvar meu progresso (opcional)</summary>
+        <p class="login-helper">Para guardar seu histórico privado, entre com Google, escolha seu estado e autorize o registro. Se preferir, jogue sem cadastro.</p>
+        <div class="login-controls">
+          <button id="login-google" class="login-button" type="button" disabled>Preparando entrada Google…</button>
+          <button id="logout-google" class="login-button out" type="button" hidden>Sair da conta</button>
+          <span id="login-status" class="login-status" role="status" aria-live="polite">Inicializando autenticação…</span>
+        </div>
+        <section id="registro-piloto" class="registro-piloto" hidden aria-labelledby="registro-title">
+          <h3 id="registro-title">Guardar meu histórico de participação</h3>
+          <p>Selecione seu estado ou Distrito Federal. Seu histórico pessoal guardará o identificador técnico da conta, a UF informada, as datas e o total de acertos das rodadas. Cada conta Google não equivale necessariamente a uma pessoa única.</p>
+          <label for="estado-participante">Seu estado ou Distrito Federal</label>
+          <select id="estado-participante"><option value="">Selecione...</option>
+            <option value="AC">Acre (AC)</option><option value="AL">Alagoas (AL)</option><option value="AP">Amapá (AP)</option>
+            <option value="AM">Amazonas (AM)</option><option value="BA">Bahia (BA)</option><option value="CE">Ceará (CE)</option>
+            <option value="DF">Distrito Federal (DF)</option><option value="ES">Espírito Santo (ES)</option><option value="GO">Goiás (GO)</option>
+            <option value="MA">Maranhão (MA)</option><option value="MT">Mato Grosso (MT)</option><option value="MS">Mato Grosso do Sul (MS)</option>
+            <option value="MG">Minas Gerais (MG)</option><option value="PA">Pará (PA)</option><option value="PB">Paraíba (PB)</option>
+            <option value="PR">Paraná (PR)</option><option value="PE">Pernambuco (PE)</option><option value="PI">Piauí (PI)</option>
+            <option value="RJ">Rio de Janeiro (RJ)</option><option value="RN">Rio Grande do Norte (RN)</option>
+            <option value="RS">Rio Grande do Sul (RS)</option><option value="RO">Rondônia (RO)</option>
+            <option value="RR">Roraima (RR)</option><option value="SC">Santa Catarina (SC)</option>
+            <option value="SP">São Paulo (SP)</option><option value="SE">Sergipe (SE)</option><option value="TO">Tocantins (TO)</option>
+          </select>
+          <label class="lgpd"><input type="checkbox" id="consentimento-registro" />
+            <span>Autorizo o registro do identificador técnico da minha conta, da UF informada, das datas e das pontuações das rodadas no Firebase. Entendo que posso jogar sem cadastro e que as pontuações ainda não têm validação independente.</span>
+          </label>
+          <button id="salvar-estado" type="button" class="btn btn-uf">GUARDAR MINHAS RODADAS</button>
+          <p id="registro-status" class="status-uf" role="status" aria-live="polite">Informe sua UF e marque a autorização, se quiser guardar seu histórico.</p>
+        </section>
+        <details class="privacy-details"><summary>Como meus dados serão utilizados?</summary>
+          <p>A entrada opcional com Google utiliza o Firebase Authentication, que processa dados básicos de conta (nome, foto e e-mail). No banco Firestore do quiz são gravados o identificador técnico (UID), a UF declarada, as datas e as pontuações de cada rodada, não o seu e-mail. Somente sua conta poderá consultar seu histórico pela página pública, e o administrador poderá acessá-lo no console. Os resultados são calculados no navegador, sem validação independente, e não formam estatísticas nacionais públicas. Não é necessário entrar com Google para jogar.</p>
+        </details>
+      </details>
+      <a class="history-link" href="meus-resultados.html">Ver meu histórico de resultados ↗</a>
+    </section>
+    <section id="question-area" class="panel" aria-labelledby="question-title">
+      <div class="topline"><span id="question-position">PERGUNTA 1 DE 6</span><span id="answer-status">ESCOLHA UMA FOTOGRAFIA</span></div>
       <h2 id="question-title">Carregando pergunta...</h2>
-      <p class="instruction">O desafio pergunta em qual plano de governo o tema aparece expressamente, conforme o índice oficial do TSE. Não é uma pergunta sobre preferência eleitoral.</p>
+      <p class="instruction">Selecione a fotografia do candidato cujo índice do plano de governo contém o tema indicado. Esta escolha não é uma votação e não representa preferência eleitoral.</p>
       <div class="grid" aria-label="Escolha em qual plano a proposta aparece">
-        <button class="candidate" id="choose-lula" type="button" onclick="answer('lula')">
+        <button class="candidate" id="choose-lula" type="button" onclick="answer('lula')" aria-label="Selecionar plano de governo de Lula">
           <img class="portrait" src="data:image/jpeg;base64,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" alt="Fotografia de candidatura de Lula, pacote de fotos divulgáveis BR 2026 do TSE" loading="lazy" onerror="this.style.visibility='hidden';this.parentNode.style.background='#27506f'">
-          <strong>Lula</strong><small>PT • Nº 13</small><span class="tap">Escolher esta foto</span>
+          <strong>Lula</strong><small>PT • Nº 13</small><span class="tap">Escolher este plano</span>
         </button>
-        <button class="candidate" id="choose-flavio" type="button" onclick="answer('flavio')">
+        <button class="candidate" id="choose-flavio" type="button" onclick="answer('flavio')" aria-label="Selecionar plano de governo de Flávio Bolsonaro">
           <img class="portrait" src="data:image/jpeg;base64,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" alt="Fotografia de candidatura de Flávio Bolsonaro, pacote de fotos divulgáveis BR 2026 do TSE" loading="lazy" onerror="this.style.visibility='hidden';this.parentNode.style.background='#27506f'">
-          <strong>Flávio Bolsonaro</strong><small>PL • Nº 22</small><span class="tap">Escolher esta foto</span>
+          <strong>Flávio Bolsonaro</strong><small>PL • Nº 22</small><span class="tap">Escolher este plano</span>
         </button>
       </div>
       <section class="result" id="answer-result" role="status" aria-live="polite" tabindex="-1">
@@ -104,11 +262,30 @@
       <div class="stat"><div class="stathead"><span>Perguntas respondidas</span><b id="progress-num">0/6</b></div><div class="track"><div class="fill" id="progress-bar"></div></div></div>
       <div class="stat"><div class="stathead"><span>Seu percentual de acertos</span><b id="score-num">0%</b></div><div class="track"><div class="fill gold" id="score-bar"></div></div></div>
     </section>
-    <section class="about" aria-label="Sobre o projeto e fontes">
-      <h3>Informação com fonte verificável</h3>
-      <p>As 60 perguntas foram elaboradas a partir dos índices temáticos das propostas divulgadas pelo Tribunal Superior Eleitoral, com 30 itens de cada candidatura. Cada rodada apresenta seis perguntas sorteadas (três referentes a cada índice). A indicação de um tópico em determinado plano não implica exclusividade da proposta, nem oposição do outro candidato. Para conhecer o conteúdo e as condições de cada proposta, consulte o documento completo.</p>
-      <div class="source-links"><a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro" target="_blank" rel="noopener noreferrer">Plano de Flávio • TSE ↗</a><a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/lula-propostas-de-governo" target="_blank" rel="noopener noreferrer">Plano de Lula • TSE ↗</a></div>
-      <div class="disclaimer">DEMONSTRAÇÃO INFORMATIVA. Este desafio não registra, mede nem divulga intenção de voto. O clique identifica somente uma resposta sobre índices de documentos públicos; as barras mostram o desempenho individual nesta sessão. Para diminuir repetições nas próximas rodadas, este navegador guarda localmente apenas os identificadores de perguntas selecionadas, sem enviar informações a servidor. O histórico pode ser apagado com os dados do navegador; perguntas voltam a aparecer quando o banco disponível se esgota. Não há contagem nacional nem banco de dados de participantes. Projeto independente, sem vínculo com o TSE, partidos ou campanhas. Fotografias de candidaturas: arquivos FBR280002542548_div.jpg e FBR280002551544_div.jpg, extraídos do pacote oficial "BR - Fotos de candidatos" do <a href="https://dadosabertos.tse.jus.br/pt_BR/dataset/candidatos-2026/resource/e8f0a648-b438-4117-814a-f32f4c4977c8" target="_blank" rel="noopener noreferrer">Portal de Dados Abertos do TSE</a>, sob licença Creative Commons Atribuição (CC BY). Fotografias exibidas com recorte circular; seus arquivos originais não foram alterados. Recomenda-se revisão jurídica antes de ampla divulgação eleitoral.</div>
+    <section class="about" aria-label="Fontes oficiais e transparência">
+      <div class="about-heading"><span class="verified-mark" aria-hidden="true">✓</span><div><h3>Fontes oficiais e transparência</h3><p>Questões baseadas em índices dos planos de governo disponíveis no Tribunal Superior Eleitoral (TSE). Consulte os documentos completos:</p></div></div>
+      <div class="source-links">
+        <a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/lula-propostas-de-governo" target="_blank" rel="noopener noreferrer">Plano de Lula no TSE ↗</a>
+        <a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro" target="_blank" rel="noopener noreferrer">Plano de Flávio no TSE ↗</a>
+      </div>
+      <p class="short-disclaimer"><strong>Projeto informativo independente.</strong> Não é uma pesquisa eleitoral, não mede intenção de voto e não possui vínculo com o TSE, os partidos ou as campanhas.</p>
+      <details class="legal-details">
+        <summary>Como funcionam as perguntas e as fontes?</summary>
+        <div class="legal-content">
+          <p>O banco contém 60 perguntas elaboradas a partir dos índices temáticos dos planos publicados no TSE, com 30 itens de cada candidatura. Cada rodada sorteia seis perguntas: três associadas a cada índice.</p>
+          <p>A presença de um tópico em determinado índice não significa exclusividade da ideia, compromisso com sua execução ou oposição do outro candidato. Para conhecer o contexto e as condições de cada proposta, consulte os documentos oficiais completos.</p>
+          <p>As fotografias dos candidatos foram extraídas do pacote “BR - Fotos de candidatos” do <a href="https://dadosabertos.tse.jus.br/pt_BR/dataset/candidatos-2026/resource/e8f0a648-b438-4117-814a-f32f4c4977c8" target="_blank" rel="noopener noreferrer">Portal de Dados Abertos do TSE</a> (arquivos FBR280002542548_div.jpg e FBR280002551544_div.jpg). As condições e a licença de reutilização devem ser observadas.</p>
+        </div>
+      </details>
+      <details class="legal-details">
+        <summary>Privacidade e registro de participações</summary>
+        <div class="legal-content">
+          <p>É possível jogar sem cadastro. Nesse caso, a pontuação não é enviada ao Firebase. Se o participante entrar com Google, escolher seu estado e autorizar o armazenamento, o Firestore registra o identificador técnico da conta (UID), a UF declarada, as datas e as pontuações das rodadas. O Firebase Authentication processa os dados básicos necessários à entrada, incluindo nome, foto e e-mail.</p>
+          <p>As pontuações são calculadas no navegador e ainda não possuem validação independente. Por isso, não há placar nacional público; os registros servem para acompanhamento individual. Para evitar repetir perguntas, identificadores de questões já apresentadas podem ficar armazenados localmente no navegador.</p>
+          <p><a href="meus-resultados.html">Consultar meu histórico privado ↗</a></p>
+        </div>
+      </details>
+      <div class="footer-line"><span>DESAFIO BRASIL 2026 • Informação e conhecimento</span><a href="#inicio">Voltar ao início ↑</a></div>
     </section>
   </main>
 </div>
@@ -483,8 +660,8 @@
   const QUESTIONS_PER_ROUND = 6;
   const HISTORY_KEY = 'desafio-brasil-2026-historico-v3';
   const $ = id => document.getElementById(id);
-  let roundQuestions = [], index = 0, answered = false, correctCount = 0, finished = false;
-  const initialInstructions = 'Este desafio verifica a identificação de itens nos índices temáticos dos planos divulgados pelo TSE. A presença de um item em um índice não significa exclusividade da ideia nem discordância do outro candidato. Não é uma pergunta sobre preferência eleitoral.';
+  let roundQuestions = [], index = 0, answered = false, correctCount = 0, finished = false, rodadaId = "";
+  const initialInstructions = 'Escolha a fotografia do candidato cujo índice de propostas contém o tema apresentado. Isto não é uma votação nem mede sua preferência política. A presença do tema em um plano não significa que o outro candidato seja contrário à ideia.';
 
   function shuffled(items) {
     const a = items.slice();
@@ -526,7 +703,7 @@
     const q=roundQuestions[index];
     $('question-position').textContent=`PERGUNTA ${index+1} DE ${QUESTIONS_PER_ROUND}`;
     $('question-title').textContent=q.q;
-    $('answer-status').textContent='TOQUE EM UMA FOTO ABAIXO';
+    $('answer-status').textContent='ESCOLHA UMA FOTOGRAFIA';
     $('answer-result').className='result';
     $('next').disabled=true;
     $('next').textContent=index===QUESTIONS_PER_ROUND-1?'Ver meu resultado final →':'Próxima pergunta →';
@@ -534,7 +711,7 @@
       const b=$('choose-'+k);
       b.disabled=false;
       b.classList.remove('selected','correct');
-      b.querySelector('.tap').textContent='Escolher esta foto';
+      b.querySelector('.tap').textContent='Escolher este plano';
     }
   }
   function updateStats() {
@@ -578,15 +755,21 @@
     $('question-position').textContent='DESAFIO CONCLUÍDO';
     $('answer-status').textContent='SEU RESULTADO PESSOAL';
     $('question-title').textContent=`Você acertou ${correctCount} de ${QUESTIONS_PER_ROUND} perguntas (${pct}%).`;
-    document.querySelector('.instruction').textContent='Desafio concluído! Você pode iniciar outra rodada com seis perguntas diferentes. O resultado não é enviado nem registrado em um sistema nacional.';
+    document.querySelector('.instruction').textContent='Desafio concluído! Se você autorizou o registro com Google, esta rodada será guardada em seu histórico pessoal. Caso contrário, a pontuação permanece somente nesta página.';
     document.querySelector('.grid').style.display='none';
     $('answer-result').className='result';
+    // A etapa de autenticação decide se há autorização para registrar a rodada.
+    // Quem joga como visitante não envia dados ao banco.
+    if (typeof window.registrarRodadaPiloto === 'function') {
+      window.registrarRodadaPiloto({acertos: correctCount, total: QUESTIONS_PER_ROUND, rodada: rodadaId});
+    }
     $('next').textContent='Nova rodada com outras perguntas ↻';
     $('next').disabled=false;
     updateStats();
     document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
   }
   function startRound() {
+    rodadaId = (globalThis.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('r-'+Date.now()+'-'+Math.random().toString(36).slice(2));
     roundQuestions=selectRound();
     index=0; answered=false;correctCount=0;finished=false;
     document.querySelector('.grid').style.display='grid';
@@ -596,6 +779,178 @@
   }
   document.querySelector('.instruction').textContent=initialInstructions;
   startRound();
+</script>
+
+<!-- Login Google e Firestore: registro individual em fase piloto. Sem placar público. -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDUDGjlJYPdI9nOO8xBLxzptr0MMOyrLvY",
+    authDomain: "desafio-brasil-2026.firebaseapp.com",
+    projectId: "desafio-brasil-2026",
+    storageBucket: "desafio-brasil-2026.firebasestorage.app",
+    messagingSenderId: "377110809589",
+    appId: "1:377110809589:web:b1818538bce5b678be2ebc"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const btn = document.getElementById('login-google');
+  const out = document.getElementById('logout-google');
+  const status = document.getElementById('login-status');
+  const box = document.getElementById('registro-piloto');
+  const ufSelect = document.getElementById('estado-participante');
+  const consent = document.getElementById('consentimento-registro');
+  const saveUf = document.getElementById('salvar-estado');
+  const registerStatus = document.getElementById('registro-status');
+  const provider = new GoogleAuthProvider();
+  let activeUser = null;
+  let activeUf = '';
+  let permitRecording = false;
+  let sequence = 0;
+  const ufList = new Set('AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' '));
+  const describeError = e => {
+    const messages = {
+      'permission-denied': 'O Firestore ainda não autorizou esta operação. Confira se as regras de teste já foram publicadas.',
+      'unavailable': 'O banco de dados está temporariamente indisponível. Tente novamente.',
+      'auth/unauthorized-domain': 'O endereço do site precisa estar autorizado no Firebase.',
+      'auth/popup-closed-by-user': 'A entrada foi cancelada ao fechar a janela Google.',
+      'auth/popup-blocked': 'O navegador bloqueou a janela de login. Permita pop-ups para este site.'
+    };
+    return messages[e.code] || 'Não foi possível concluir agora. ' + (e.code ? '('+e.code+')' : 'Verifique a conexão.');
+  };
+  function setLoginMessage(msg) { status.textContent = msg; }
+  function setProfileMessage(msg) { registerStatus.textContent = msg; }
+
+  if (location.protocol === 'file:') {
+    btn.disabled = true;
+    btn.textContent = 'Abra no GitHub Pages para testar o login';
+    setLoginMessage('No arquivo local a autenticação não funciona. O quiz continua disponível.');
+  } else {
+    onAuthStateChanged(auth, async user => {
+      // Impede que um carregamento antigo altere o estado de outra sessão.
+      const session = ++sequence;
+      activeUser = user;
+      permitRecording = false;
+      activeUf = '';
+      consent.checked = false;
+      btn.disabled = false;
+      box.hidden = !user;
+      if (!user) {
+        btn.hidden = false;
+        out.hidden = true;
+        btn.textContent = 'Entrar com Google';
+        document.getElementById('login-summary').textContent = 'Salvar meu progresso (opcional)';
+        setLoginMessage('Para jogar sem salvar o histórico, basta começar o desafio.');
+        setProfileMessage('Informe seu estado e concorde com o registro para ativá-lo.');
+        return;
+      }
+      btn.hidden = true;
+      out.hidden = false;
+      document.getElementById('login-summary').textContent = 'Salvar meu progresso — conta conectada';
+      setLoginMessage('Conectado como ' + (user.displayName || 'participante') + '. O registro de pontuações exige autorização abaixo.');
+      setProfileMessage('Carregando sua participação anterior, se houver…');
+      try {
+        const snapshot = await getDoc(doc(db,'participantes',user.uid));
+        if(session !== sequence || auth.currentUser?.uid !== user.uid) return;
+        if (snapshot.exists() && ufList.has(snapshot.data().uf)) {
+          ufSelect.value = snapshot.data().uf;
+          activeUf = snapshot.data().uf;
+          setProfileMessage('Estado encontrado. Para guardar novas rodadas, marque a autorização e clique em GUARDAR MINHAS RODADAS.');
+        } else {
+          setProfileMessage('Escolha sua UF e autorize o registro. Seu histórico será acessível somente à conta conectada.');
+        }
+      } catch (e) {
+        setProfileMessage(describeError(e));
+      }
+    }, e => { setLoginMessage(describeError(e)); btn.disabled = false; });
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      setLoginMessage('Abrindo entrada Google…');
+      try { await signInWithPopup(auth, provider); }
+      catch(e) { setLoginMessage(describeError(e)); btn.disabled=false; }
+    });
+    out.addEventListener('click', async () => {
+      out.disabled = true;
+      try { await signOut(auth); }
+      catch(e) { setLoginMessage(describeError(e)); }
+      finally { out.disabled = false; }
+    });
+  }
+  // Alterar o estado exige nova confirmação explícita; evita guardar estado antigo por engano.
+  ufSelect.addEventListener('change', () => { permitRecording=false; });
+  consent.addEventListener('change', () => { if(!consent.checked) permitRecording=false; });
+
+  saveUf.addEventListener('click', async () => {
+    const user=activeUser, uf=ufSelect.value;
+    if (!user) { setProfileMessage('Primeiro entre com Google.'); return; }
+    if (!ufList.has(uf)) { setProfileMessage('Selecione uma unidade federativa válida.'); return; }
+    if (!consent.checked) { setProfileMessage('Marque a caixa de autorização para registrar esta conta.'); return; }
+    saveUf.disabled=true;
+    setProfileMessage('Salvando estado de participação…');
+    try {
+      const ref=doc(db,'participantes',user.uid);
+      const existing=await getDoc(ref);
+      if(existing.exists()) {
+        await updateDoc(ref, {uf, atualizadoEm: serverTimestamp()});
+      } else {
+        await setDoc(ref, {uf, criadoEm: serverTimestamp(), atualizadoEm: serverTimestamp()});
+      }
+      if(activeUser?.uid !== user.uid) { setProfileMessage('Sessão alterada; entre novamente.'); return; }
+      activeUf=uf;
+      permitRecording=true;
+      setProfileMessage('Histórico habilitado! Suas próximas rodadas concluídas nesta visita serão guardadas na sua conta.');
+    } catch(e) { permitRecording=false; setProfileMessage(describeError(e)); }
+    finally { saveUf.disabled=false; }
+  });
+
+  // Única integração com o quiz. O registro não ocorre para visitantes e nem sem consentimento.
+  window.registrarRodadaPiloto = async ({acertos, total, rodada}) => {
+    if(!activeUser || !permitRecording || !consent.checked || !ufList.has(activeUf)) return;
+    if(total!==6 || !Number.isInteger(acertos) || acertos<0 || acertos>6 || typeof rodada!=='string') return;
+    const user=activeUser;
+    const instruction=document.querySelector('.instruction');
+    const prefix=instruction.textContent;
+    instruction.textContent=prefix+' Salvando rodada no seu histórico…';
+    try {
+      // O ID local único impede a duplicação acidental da MESMA rodada.
+      const roundRef=doc(db,'participantes',user.uid,'rodadas',rodada);
+      await setDoc(roundRef, {uf:activeUf, acertos, total:6, criadoEm:serverTimestamp(), versao:1});
+      if(activeUser?.uid===user.uid) {
+        instruction.textContent=prefix+' Rodada guardada no seu histórico privado. Ainda não há placar nacional público.';
+      }
+    } catch(e) {
+      if(activeUser?.uid===user.uid) instruction.textContent=prefix+' Não foi possível registrar: '+describeError(e);
+    }
+  };
+</script>
+<script>
+  // Link público estável. Na página de testes, aguarde a publicação do index.html antes de compartilhar.
+  document.getElementById('copiar-link').addEventListener('click', async () => {
+    const msg = document.getElementById('mensagem-link');
+    const url = 'https://criacoesemgeral.github.io/desafio-brasil-2026/';
+    const title = 'DESAFIO BRASIL 2026 — Quem propõe o quê?';
+    const text = 'Participe gratuitamente: seis perguntas sobre planos de governo, respostas explicadas e fontes do TSE.';
+    if (navigator.share) {
+      try {
+        await navigator.share({title, text, url});
+        msg.textContent = 'Obrigado por divulgar o Desafio Brasil 2026!';
+        return;
+      } catch (err) {
+        if (err && err.name === 'AbortError') return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      msg.textContent = 'Endereço oficial copiado! Cole no WhatsApp ou na rede social desejada.';
+    } catch (err) {
+      msg.textContent = 'Copie o endereço oficial: ' + url;
+    }
+  });
 </script>
 </body>
 </html>
