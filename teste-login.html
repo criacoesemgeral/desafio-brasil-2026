@@ -80,7 +80,22 @@
     .login-panel details summary{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
     .login-panel details p{font-size:12px}
     @media(max-width:600px){.login-panel{padding:15px}.login-controls{align-items:stretch}.login-button{width:100%}.login-status{width:100%}}
-  </style>
+  
+    /* Acesso simples: jogar primeiro, login opcional e discreto */
+    .access-kicker{font-size:11px;font-weight:850;letter-spacing:.14em;color:#f0cb70;margin-bottom:7px}
+    .login-panel .guest-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:2px 0 12px;padding:13px 24px;min-height:50px;border-radius:12px;background:#f1c761;color:#17263a;font-size:16px;font-weight:850;text-decoration:none}
+    .login-panel .guest-button:hover{background:#ffda7f}
+    .access-explain{font-size:12px;color:#c2d6ea;line-height:1.6}
+    .login-panel .optional-login{margin-top:16px;padding:11px 13px;border:1px solid #3c6688;border-radius:11px}
+    .login-panel .optional-login>summary{font-size:13px;font-weight:700;color:#d6e9fc;text-decoration:none}
+    .optional-login[open]>summary{margin-bottom:10px}
+    .optional-login .login-controls{margin-top:10px}
+    .optional-login .login-helper{margin:3px 0 8px}
+    .optional-login .privacy-details{padding:0 0 2px;margin-top:12px}
+    .optional-login .privacy-details summary{font-size:12px;font-weight:400}
+    #question-area{scroll-margin-top:18px}
+    @media(max-width:600px){.login-panel .guest-button{width:100%}.login-panel .optional-login{padding:11px}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -95,22 +110,26 @@
       <p class="sub">Você sabe identificar quais propostas constam dos planos de governo de Lula e Flávio Bolsonaro? Clique na foto, descubra a resposta e confira o documento do TSE.</p>
       <div class="chip">60 perguntas no banco • 6 por rodada • 2 candidatos</div>
     </section>
-    <section class="login-panel" aria-labelledby="login-title">
-      <div class="login-head">
-        <div>
-          <h2 id="login-title">Entrada com Google — fase de testes</h2>
-          <p>Você pode testar a identificação com uma conta Google. Por enquanto, suas respostas e pontuações continuam somente neste navegador, sem registro nacional.</p>
+    <section class="login-panel" aria-labelledby="access-title">
+      <div class="access-kicker">PARTICIPE EM SEGUNDOS</div>
+      <h2 id="access-title">Jogue agora, sem cadastro</h2>
+      <p>Responda seis perguntas sobre os planos de governo. Você vê seu resultado na hora e pode jogar novamente.</p>
+      <a class="guest-button" href="#question-area">Começar desafio <span aria-hidden="true">↓</span></a>
+      <div class="access-explain">Sem cadastro, sem senha e sem informar seu e-mail. Nesta demonstração, nenhuma pontuação é registrada nas estatísticas nacionais.</div>
+      <details class="optional-login" id="login-options">
+        <summary id="login-summary">Quer testar a entrada com Google? É opcional.</summary>
+        <p class="login-helper">Na versão futura, uma conta Google permitirá reconhecer participantes que voltam ao site. Por enquanto, essa entrada apenas testa a identificação: não salva respostas ou pontuações.</p>
+        <div class="login-controls">
+          <button id="login-google" class="login-button" type="button" disabled>Preparando entrada Google…</button>
+          <button id="logout-google" class="login-button out" type="button" hidden>Sair da conta</button>
+          <span id="login-status" class="login-status" role="status" aria-live="polite">Inicializando autenticação…</span>
         </div>
-      </div>
-      <div class="login-controls">
-        <button id="login-google" class="login-button" type="button" disabled>Preparando entrada Google…</button>
-        <button id="logout-google" class="login-button out" type="button" hidden>Sair da conta</button>
-        <span id="login-status" class="login-status" role="status" aria-live="polite">Inicializando autenticação…</span>
-      </div>
-      <details><summary>Como serão usados os dados nesta fase?</summary>
-      <p>Somente ao escolher entrar, o Firebase Authentication poderá registrar dados básicos da sua conta Google, como identificador técnico, nome e e-mail, para reconhecê-la. Nesta fase, o desafio não envia respostas, estado ou pontuação ao banco Firestore. Os resultados do quiz são locais. A entrada é opcional durante os testes. Antes da divulgação nacional será publicada uma política de privacidade mais completa e definido um contato específico para suporte.</p></details>
+        <details class="privacy-details"><summary>Quais dados o Google poderá compartilhar?</summary>
+          <p>Somente se você escolher entrar, o Firebase Authentication poderá receber seu identificador, nome, foto e e-mail. Suas respostas, seu estado e sua pontuação não são enviados ao Firestore nesta versão. Os resultados continuam locais. Antes do lançamento nacional, publicaremos uma política de privacidade e um contato exclusivo de suporte.</p>
+        </details>
+      </details>
     </section>
-    <section class="panel" aria-labelledby="question-title">
+    <section id="question-area" class="panel" aria-labelledby="question-title">
       <div class="topline"><span id="question-position">PERGUNTA 1 DE 6</span><span id="answer-status">TOQUE EM UMA FOTO ABAIXO</span></div>
       <h2 id="question-title">Carregando pergunta...</h2>
       <p class="instruction">O desafio pergunta em qual plano de governo o tema aparece expressamente, conforme o índice oficial do TSE. Não é uma pergunta sobre preferência eleitoral.</p>
@@ -649,7 +668,6 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({prompt: 'select_account'});
 
   if(location.protocol === 'file:') {
     btn.textContent = 'Teste o login no site publicado';
@@ -661,11 +679,13 @@
       if(user) {
         btn.hidden = true;
         out.hidden = false;
+        document.getElementById('login-summary').textContent = 'Conta Google conectada — opções';
         status.textContent = 'Conectado como ' + (user.displayName || 'participante') + '. O resultado do quiz ainda não é enviado.';
       } else {
         btn.hidden = false;
         btn.textContent = 'Entrar com Google';
         out.hidden = true;
+        document.getElementById('login-summary').textContent = 'Quer testar a entrada com Google? É opcional.';
         status.textContent = 'A entrada é opcional nesta fase de testes.';
       }
     }, err => { status.textContent = 'Falha ao verificar autenticação. Atualize a página e tente novamente.'; btn.disabled = false; btn.textContent='Entrar com Google'; });
