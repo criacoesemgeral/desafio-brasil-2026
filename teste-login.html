@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1d39" />
+  <meta name="description" content="Desafio informativo: você sabe a qual plano de governo pertencem estas propostas? Fontes oficiais do TSE." />
+  <title>DESAFIO BRASIL 2026 | Quem propõe o quê?</title>
+  <style>
+    :root { color-scheme: dark; --bg:#071426; --panel:#10233e; --border:#28445f; --text:#f8fafc; --muted:#b6c5d9; --accent:#f1c761; --cyan:#38bdf8; --green:#67dfb3; --radius:20px; }
+    *,*::before,*::after {box-sizing:border-box}
+    body {margin:0; min-width:300px; background:radial-gradient(ellipse 90% 38% at 50% -2%, #234a79 0%, #071426 77%); color:var(--text); font:16px/1.52 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a {color:#a6dfff;text-underline-offset:3px}
+    button {font:inherit; cursor:pointer; touch-action:manipulation}
+    button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+    .wrap {max-width:1100px;margin:auto;padding:0 max(18px,env(safe-area-inset-right)) 36px}
+    header {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 0;border-bottom:1px solid #294562}
+    .brand {display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:.04em;font-size:clamp(14px,2vw,18px)}
+    .flag {display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:#147b58;font-size:18px}
+    .eyebrow {font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#d3e3f7;font-weight:850}
+    .meta {font-size:12px;color:var(--muted);text-align:right}
+    .hero {text-align:center;max-width:850px;margin:43px auto 28px}
+    h1 {font-size:clamp(31px,5vw,55px);letter-spacing:-.045em;line-height:1.1;margin:12px 0;color:white}
+    h1 em{font-style:normal;color:var(--accent)}
+    .sub {font-size:clamp(15px,2vw,18px);color:#d2deee;margin:0 auto;max-width:710px}
+    .chip {display:inline-block;background:#193954;border:1px solid #386081;color:#cceeff;border-radius:99px;padding:6px 12px;margin-top:20px;font-size:12px;font-weight:750}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:770px;margin:25px auto 30px}
+    .candidate{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;gap:5px;background:linear-gradient(145deg,#1b3959,#10243e);border:2px solid #345473;border-radius:22px;padding:16px 12px 18px;color:white;min-height:220px;transition:transform .18s,border-color .18s,box-shadow .18s}
+    .candidate:hover:not(:disabled){transform:translateY(-3px);border-color:#c4dded;box-shadow:0 12px 30px #0005}
+    .candidate:disabled {cursor:default}
+    .candidate:disabled:not(.selected){opacity:.68}
+    .candidate.selected{border-color:var(--accent);box-shadow:0 0 0 2px #a4873f66}
+    .candidate.correct{border-color:var(--green)}
+    .portrait{width:clamp(93px,19vw,152px);height:clamp(93px,19vw,152px);object-fit:cover;object-position:center top;border-radius:50%;background:#dce6ef;border:4px solid #ffffff2c;box-shadow:0 8px 24px #0005}
+    .candidate strong{font-size:clamp(17px,2.5vw,23px);line-height:1.1;margin-top:10px;text-align:center}
+    .candidate small{font-size:13px;color:#cfdeef}
+    .candidate .tap{font-size:11px;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-top:8px}
+    .panel {border:1px solid #345472;border-radius:var(--radius);background:linear-gradient(165deg,#142d4b,#0e2139);padding:clamp(17px,3vw,28px);max-width:770px;margin:0 auto 22px;box-shadow:0 14px 35px #0003}
+    .topline{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#cae0f5;font-size:12px;text-transform:uppercase;font-weight:800;letter-spacing:.07em}
+    h2{font-size:clamp(22px,3vw,30px);line-height:1.22;margin:15px 0 10px;letter-spacing:-.018em}
+    .instruction{margin:0;color:var(--muted);font-size:14px}
+    .result {display:none;background:#0b2432;border:1px solid #367868;border-radius:14px;margin-top:20px;padding:17px;outline:0}
+    .result.visible{display:block}
+    .result.wrong{background:#292416;border-color:#a67c2b}
+    .result h3{margin:0 0 6px;font-size:19px}
+    .result p{margin:0 0 8px;color:#e2edf7;font-size:14px}
+    .result a{font-size:13px;font-weight:700}
+    .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .btn {border:none;border-radius:13px;padding:13px 23px;font-weight:800;background:var(--accent);color:#1e2531;min-height:47px}
+    .btn:disabled{background:#77879b;color:#233246;cursor:not-allowed}
+    .btn.secondary {background:#183c60;border:1px solid #487497;color:white}
+    .stats {display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:770px;margin:0 auto 23px}
+    .stat {background:#0c2039;border:1px solid #294765;border-radius:15px;padding:16px}
+    .stathead {display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:13px;margin-bottom:10px;color:#cbdced}
+    .stathead b{font-size:19px;color:#fff;font-variant-numeric:tabular-nums}
+    .track {height:11px;border-radius:100px;background:#263e56;overflow:hidden}
+    .fill{height:100%;width:0%;border-radius:100px;background:linear-gradient(90deg,#0ea5e9,#77dbfc);transition:width .45s ease}
+    .fill.gold{background:linear-gradient(90deg,#c69a32,#f1d989)}
+    .about {max-width:770px;margin:0 auto;padding:8px 4px;color:#c6d5e6}
+    .about h3{font-size:18px;margin:12px 0 5px;color:white}
+    .about p{font-size:13px;line-height:1.65;margin:0 0 9px}
+    .source-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:13px}
+    .source-links a {display:inline-block;padding:8px 11px;border:1px solid #446581;border-radius:9px;font-size:12px;text-decoration:none}
+    .disclaimer {font-size:12px;color:#b2c4db;border-top:1px solid #294562;margin-top:22px;padding-top:20px}
+    .sr-only {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (max-width:600px){header{padding:15px 0}.meta{font-size:10px}.hero{margin:27px auto 16px}.chip{margin-top:12px}.grid{gap:10px;margin:19px auto}.candidate{min-height:192px;padding:14px 5px}.candidate small{font-size:12px}.candidate .tap{font-size:10px}.stats{gap:10px}.stat{padding:12px}.stathead{flex-wrap:wrap;font-size:12px}.stathead b{font-size:17px}.panel{padding:17px}.wrap{padding-left:14px;padding-right:14px}.actions .btn{width:100%}}
+    @media (prefers-reduced-motion:reduce){.fill,.candidate{transition:none}}
+
+    /* Integração de autenticação — visual preservado */
+    .login-panel{max-width:770px;margin:0 auto 22px;padding:19px 21px;border:1px solid #365f7f;border-radius:18px;background:linear-gradient(135deg,#122a46,#10223c)}
+    .login-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .login-panel h2{margin:0;font-size:clamp(19px,2.5vw,23px)}
+    .login-panel p{margin:7px 0 13px;font-size:13px;color:#d5e4f4;line-height:1.55}
+    .login-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .login-button{border:1px solid #6b87a5;border-radius:11px;padding:10px 17px;min-height:43px;background:#fff;color:#20252d;font-weight:750}
+    .login-button.out{background:transparent;color:#fff;border-color:#5d83a7}
+    .login-button:disabled{opacity:.6;cursor:wait}
+    .login-status{font-size:13px;color:#ccdef3;line-height:1.5;min-height:20px}
+    .login-panel details{margin-top:14px;color:#b9cee3;font-size:12px}
+    .login-panel details summary{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+    .login-panel details p{font-size:12px}
+    @media(max-width:600px){.login-panel{padding:15px}.login-controls{align-items:stretch}.login-button{width:100%}.login-status{width:100%}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="flag" aria-hidden="true">🇧🇷</span> DESAFIO BRASIL 2026</div>
+    <div class="meta">INFORMAÇÃO • FONTES OFICIAIS<br>2º TURNO PRESIDENCIAL</div>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="site-title">
+      <div class="eyebrow">QUEM PROPÕE O QUÊ?</div>
+      <h1 id="site-title">DESAFIO <em>BRASIL 2026</em></h1>
+      <p class="sub">Você sabe identificar quais propostas constam dos planos de governo de Lula e Flávio Bolsonaro? Clique na foto, descubra a resposta e confira o documento do TSE.</p>
+      <div class="chip">60 perguntas no banco • 6 por rodada • 2 candidatos</div>
+    </section>
+    <section class="login-panel" aria-labelledby="login-title">
+      <div class="login-head">
+        <div>
+          <h2 id="login-title">Entrada com Google — fase de testes</h2>
+          <p>Você pode testar a identificação com uma conta Google. Por enquanto, suas respostas e pontuações continuam somente neste navegador, sem registro nacional.</p>
+        </div>
+      </div>
+      <div class="login-controls">
+        <button id="login-google" class="login-button" type="button" disabled>Preparando entrada Google…</button>
+        <button id="logout-google" class="login-button out" type="button" hidden>Sair da conta</button>
+        <span id="login-status" class="login-status" role="status" aria-live="polite">Inicializando autenticação…</span>
+      </div>
+      <details><summary>Como serão usados os dados nesta fase?</summary>
+      <p>Somente ao escolher entrar, o Firebase Authentication poderá registrar dados básicos da sua conta Google, como identificador técnico, nome e e-mail, para reconhecê-la. Nesta fase, o desafio não envia respostas, estado ou pontuação ao banco Firestore. Os resultados do quiz são locais. A entrada é opcional durante os testes. Antes da divulgação nacional será publicada uma política de privacidade mais completa e definido um contato específico para suporte.</p></details>
+    </section>
+    <section class="panel" aria-labelledby="question-title">
+      <div class="topline"><span id="question-position">PERGUNTA 1 DE 6</span><span id="answer-status">TOQUE EM UMA FOTO ABAIXO</span></div>
+      <h2 id="question-title">Carregando pergunta...</h2>
+      <p class="instruction">O desafio pergunta em qual plano de governo o tema aparece expressamente, conforme o índice oficial do TSE. Não é uma pergunta sobre preferência eleitoral.</p>
+      <div class="grid" aria-label="Escolha em qual plano a proposta aparece">
+        <button class="candidate" id="choose-lula" type="button" onclick="answer('lula')">
+          <img class="portrait" src="data:image/jpeg;base64,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" alt="Fotografia de candidatura de Lula, pacote de fotos divulgáveis BR 2026 do TSE" loading="lazy" onerror="this.style.visibility='hidden';this.parentNode.style.background='#27506f'">
+          <strong>Lula</strong><small>PT • Nº 13</small><span class="tap">Escolher esta foto</span>
+        </button>
+        <button class="candidate" id="choose-flavio" type="button" onclick="answer('flavio')">
+          <img class="portrait" src="data:image/jpeg;base64,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" alt="Fotografia de candidatura de Flávio Bolsonaro, pacote de fotos divulgáveis BR 2026 do TSE" loading="lazy" onerror="this.style.visibility='hidden';this.parentNode.style.background='#27506f'">
+          <strong>Flávio Bolsonaro</strong><small>PL • Nº 22</small><span class="tap">Escolher esta foto</span>
+        </button>
+      </div>
+      <section class="result" id="answer-result" role="status" aria-live="polite" tabindex="-1">
+        <h3 id="result-heading"></h3><p id="result-explain"></p>
+        <a id="result-source" href="#" target="_blank" rel="noopener noreferrer">Conferir no TSE ↗</a>
+      </section>
+      <div class="actions"><button id="next" type="button" class="btn" disabled onclick="nextQuestion()">Próxima pergunta →</button></div>
+    </section>
+    <section class="stats" aria-label="Seu desempenho pessoal no desafio">
+      <div class="stat"><div class="stathead"><span>Perguntas respondidas</span><b id="progress-num">0/6</b></div><div class="track"><div class="fill" id="progress-bar"></div></div></div>
+      <div class="stat"><div class="stathead"><span>Seu percentual de acertos</span><b id="score-num">0%</b></div><div class="track"><div class="fill gold" id="score-bar"></div></div></div>
+    </section>
+    <section class="about" aria-label="Sobre o projeto e fontes">
+      <h3>Informação com fonte verificável</h3>
+      <p>As 60 perguntas foram elaboradas a partir dos índices temáticos das propostas divulgadas pelo Tribunal Superior Eleitoral, com 30 itens de cada candidatura. Cada rodada apresenta seis perguntas sorteadas (três referentes a cada índice). A indicação de um tópico em determinado plano não implica exclusividade da proposta, nem oposição do outro candidato. Para conhecer o conteúdo e as condições de cada proposta, consulte o documento completo.</p>
+      <div class="source-links"><a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro" target="_blank" rel="noopener noreferrer">Plano de Flávio • TSE ↗</a><a href="https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/lula-propostas-de-governo" target="_blank" rel="noopener noreferrer">Plano de Lula • TSE ↗</a></div>
+      <div class="disclaimer">DEMONSTRAÇÃO INFORMATIVA. Este desafio não registra, mede nem divulga intenção de voto. O clique identifica somente uma resposta sobre índices de documentos públicos; as barras mostram o desempenho individual nesta sessão. Para diminuir repetições nas próximas rodadas, este navegador guarda localmente apenas os identificadores de perguntas selecionadas, sem enviar informações a servidor. O histórico pode ser apagado com os dados do navegador; perguntas voltam a aparecer quando o banco disponível se esgota. Não há contagem nacional nem envio de respostas ao banco Firestore. Se você optar por entrar com Google, o Firebase Authentication poderá registrar dados básicos da conta para fins de autenticação. Projeto independente, sem vínculo com o TSE, partidos ou campanhas. Fotografias de candidaturas: arquivos FBR280002542548_div.jpg e FBR280002551544_div.jpg, extraídos do pacote oficial "BR - Fotos de candidatos" do <a href="https://dadosabertos.tse.jus.br/pt_BR/dataset/candidatos-2026/resource/e8f0a648-b438-4117-814a-f32f4c4977c8" target="_blank" rel="noopener noreferrer">Portal de Dados Abertos do TSE</a>, sob licença Creative Commons Atribuição (CC BY). Fotografias exibidas com recorte circular; seus arquivos originais não foram alterados. Recomenda-se revisão jurídica antes de ampla divulgação eleitoral.</div>
+    </section>
+  </main>
+</div>
+<script>
+
+  const sources = {
+    lula: 'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/lula-propostas-de-governo',
+    flavio: 'https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro'
+  };
+  const questionBank = [
+    {
+        "id": "lula-01",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Fim da escala 6x1 e redução da jornada (40h)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Fim da escala 6x1 e redução da jornada (40h)” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 73 do plano)."
+    },
+    {
+        "id": "lula-02",
+        "q": "Qual plano de governo tem o item “Ensino médio (Pé-de-Meia)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Ensino médio (Pé-de-Meia)” ao eixo Educação, Ciência e Meio Ambiente (p. 6 do plano)."
+    },
+    {
+        "id": "lula-03",
+        "q": "No índice temático de qual candidatura aparece “Saúde bucal (Brasil Sorridente)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Saúde bucal (Brasil Sorridente)” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-04",
+        "q": "O assunto identificado como “Desenrola Brasil e renegociação de dívidas” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Desenrola Brasil e renegociação de dívidas” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 6 do plano)."
+    },
+    {
+        "id": "lula-05",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Economia popular e solidária (Lei Paul Singer)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Economia popular e solidária (Lei Paul Singer)” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 73 do plano)."
+    },
+    {
+        "id": "lula-06",
+        "q": "Qual plano de governo tem o item “Infraestrutura e logística (Novo PAC)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Infraestrutura e logística (Novo PAC)” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 6 do plano)."
+    },
+    {
+        "id": "lula-07",
+        "q": "No índice temático de qual candidatura aparece “Nova Indústria Brasil (NIB) e neoindustrialização”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Nova Indústria Brasil (NIB) e neoindustrialização” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 6 do plano)."
+    },
+    {
+        "id": "lula-08",
+        "q": "O assunto identificado como “Plano de Transformação Ecológica (PTE)” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Plano de Transformação Ecológica (PTE)” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 6 do plano)."
+    },
+    {
+        "id": "lula-09",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Atenção especializada e redução de filas (Agora tem Especialistas)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Atenção especializada e redução de filas (Agora tem Especialistas)” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-10",
+        "q": "Qual plano de governo tem o item “Complexo Econômico e Industrial da Saúde (CEIS)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Complexo Econômico e Industrial da Saúde (CEIS)” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-11",
+        "q": "No índice temático de qual candidatura aparece “Cuidados e corresponsabilização (Política Nacional de Cuidados)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Cuidados e corresponsabilização (Política Nacional de Cuidados)” ao eixo Saúde Pública e Assistência (p. 18 do plano)."
+    },
+    {
+        "id": "lula-12",
+        "q": "O assunto identificado como “Farmácia Popular e distribuição de medicamentos” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Farmácia Popular e distribuição de medicamentos” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-13",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Mais Médicos e fixação de profissionais”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Mais Médicos e fixação de profissionais” ao eixo Saúde Pública e Assistência (p. 34 do plano)."
+    },
+    {
+        "id": "lula-14",
+        "q": "Qual plano de governo tem o item “Saúde mental (CAPS)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Saúde mental (CAPS)” ao eixo Saúde Pública e Assistência (p. 18 do plano)."
+    },
+    {
+        "id": "lula-15",
+        "q": "No índice temático de qual candidatura aparece “Vacinação (recuperação das coberturas vacinais)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Vacinação (recuperação das coberturas vacinais)” ao eixo Saúde Pública e Assistência (p. 6 do plano)."
+    },
+    {
+        "id": "lula-16",
+        "q": "O assunto identificado como “Crimes financeiros, cibernéticos e Celular Seguro” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Crimes financeiros, cibernéticos e Celular Seguro” ao eixo Segurança Pública e Justiça (p. 18 do plano)."
+    },
+    {
+        "id": "lula-17",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Ministério da Segurança Pública”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Ministério da Segurança Pública” ao eixo Segurança Pública e Justiça (p. 26 do plano)."
+    },
+    {
+        "id": "lula-18",
+        "q": "Qual plano de governo tem o item “Sistema prisional e penitenciário (Plano Pena Justa)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Sistema prisional e penitenciário (Plano Pena Justa)” ao eixo Segurança Pública e Justiça (p. 26 do plano)."
+    },
+    {
+        "id": "lula-19",
+        "q": "No índice temático de qual candidatura aparece “Alfabetização (Compromisso Nacional Criança Alfabetizada)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Alfabetização (Compromisso Nacional Criança Alfabetizada)” ao eixo Educação, Ciência e Meio Ambiente (p. 30 do plano)."
+    },
+    {
+        "id": "lula-20",
+        "q": "O assunto identificado como “Ensino técnico e Institutos Federais” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Ensino técnico e Institutos Federais” ao eixo Educação, Ciência e Meio Ambiente (p. 30 do plano)."
+    },
+    {
+        "id": "lula-21",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Aliança Global contra a Fome e a Pobreza”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Aliança Global contra a Fome e a Pobreza” ao eixo Política Externa e Inserção Global (p. 58 do plano)."
+    },
+    {
+        "id": "lula-22",
+        "q": "Qual plano de governo tem o item “COP30, Fundo Florestas Tropicais e diplomacia climática” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “COP30, Fundo Florestas Tropicais e diplomacia climática” ao eixo Política Externa e Inserção Global (p. 69 do plano)."
+    },
+    {
+        "id": "lula-23",
+        "q": "No índice temático de qual candidatura aparece “Cultura (Fomento, Lei Rouanet, Aldir Blanc, Cultura Viva)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Cultura (Fomento, Lei Rouanet, Aldir Blanc, Cultura Viva)” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 40 do plano)."
+    },
+    {
+        "id": "lula-24",
+        "q": "O assunto identificado como “Esporte (Bolsa Atleta, Arenas Brasil)” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Esporte (Bolsa Atleta, Arenas Brasil)” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 43 do plano)."
+    },
+    {
+        "id": "lula-25",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Pessoas com deficiência (Viver sem Limites, educação inclusiva)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Pessoas com deficiência (Viver sem Limites, educação inclusiva)” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 18 do plano)."
+    },
+    {
+        "id": "lula-26",
+        "q": "Qual plano de governo tem o item “Agricultura familiar (Plano Safra, Pronaf)” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Agricultura familiar (Plano Safra, Pronaf)” ao eixo Questão Agrária, Propriedade e Direito à Cidade (p. 58 do plano)."
+    },
+    {
+        "id": "lula-27",
+        "q": "No índice temático de qual candidatura aparece “Biocombustíveis (Combustível do Futuro)”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Biocombustíveis (Combustível do Futuro)” ao eixo Questão Agrária, Propriedade e Direito à Cidade (p. 63 do plano)."
+    },
+    {
+        "id": "lula-28",
+        "q": "O assunto identificado como “Fundo Amazônia e Fundo Clima” está listado em qual plano indexado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Fundo Amazônia e Fundo Clima” ao eixo Questão Agrária, Propriedade e Direito à Cidade (p. 55 do plano)."
+    },
+    {
+        "id": "lula-29",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Mercado de carbono e Sistema Brasileiro de Comércio de Emissões”?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Mercado de carbono e Sistema Brasileiro de Comércio de Emissões” ao eixo Questão Agrária, Propriedade e Direito à Cidade (p. 50 do plano)."
+    },
+    {
+        "id": "lula-30",
+        "q": "Qual plano de governo tem o item “Portal da Transparência” no índice publicado pelo TSE?",
+        "correct": "lula",
+        "explain": "O índice de propostas de Lula, publicado pelo TSE, relaciona “Portal da Transparência” ao eixo Governança, Transparência e Reformas de Estado (p. 16 do plano)."
+    },
+    {
+        "id": "flavio-01",
+        "q": "Em qual índice oficial de propostas aparece o tópico “INSS sem fila”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “INSS sem fila” ao eixo Saúde Pública e Assistência (p. 26 do plano)."
+    },
+    {
+        "id": "flavio-02",
+        "q": "Qual plano de governo tem o item “Escolas cívico-militares” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Escolas cívico-militares” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-03",
+        "q": "No índice temático de qual candidatura aparece “Bônus de internet”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Bônus de internet” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 18 do plano)."
+    },
+    {
+        "id": "flavio-04",
+        "q": "O assunto identificado como “Banco nacional de vagas de emprego” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Banco nacional de vagas de emprego” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 44 do plano)."
+    },
+    {
+        "id": "flavio-05",
+        "q": "Em qual índice oficial de propostas aparece o tópico “CAIXA - banco da prosperidade”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “CAIXA - banco da prosperidade” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 46 do plano)."
+    },
+    {
+        "id": "flavio-06",
+        "q": "Qual plano de governo tem o item “Primeira empresa” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Primeira empresa” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 45 do plano)."
+    },
+    {
+        "id": "flavio-07",
+        "q": "No índice temático de qual candidatura aparece “Primeiro emprego”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Primeiro emprego” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 43 do plano)."
+    },
+    {
+        "id": "flavio-08",
+        "q": "O assunto identificado como “Trabalhador acima de 50 anos” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Trabalhador acima de 50 anos” ao eixo Economia, Trabalho e Responsabilidade Fiscal (p. 43 do plano)."
+    },
+    {
+        "id": "flavio-09",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Agendamento ágil por inteligência artificial”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Agendamento ágil por inteligência artificial” ao eixo Saúde Pública e Assistência (p. 25 do plano)."
+    },
+    {
+        "id": "flavio-10",
+        "q": "Qual plano de governo tem o item “Digitalização do SUS” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Digitalização do SUS” ao eixo Saúde Pública e Assistência (p. 25 do plano)."
+    },
+    {
+        "id": "flavio-11",
+        "q": "No índice temático de qual candidatura aparece “Idosos - Casa segura para envelhecer”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Idosos - Casa segura para envelhecer” ao eixo Saúde Pública e Assistência (p. 38 do plano)."
+    },
+    {
+        "id": "flavio-12",
+        "q": "O assunto identificado como “Prontuário eletrônico único” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Prontuário eletrônico único” ao eixo Saúde Pública e Assistência (p. 25 do plano)."
+    },
+    {
+        "id": "flavio-13",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Remédio à domicílio”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Remédio à domicílio” ao eixo Saúde Pública e Assistência (p. 37 do plano)."
+    },
+    {
+        "id": "flavio-14",
+        "q": "Qual plano de governo tem o item “Retorno sem fila pós seguro desemprego” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Retorno sem fila pós seguro desemprego” ao eixo Saúde Pública e Assistência (p. 42 do plano)."
+    },
+    {
+        "id": "flavio-15",
+        "q": "No índice temático de qual candidatura aparece “Reconhecimento facial”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Reconhecimento facial” ao eixo Segurança Pública (p. 15 do plano)."
+    },
+    {
+        "id": "flavio-16",
+        "q": "O assunto identificado como “Progressão de pena zero para crimes hediondos” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Progressão de pena zero para crimes hediondos” ao eixo Segurança Pública (p. 15 do plano)."
+    },
+    {
+        "id": "flavio-17",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Alfabetização (método fônico)”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Alfabetização (método fônico)” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-18",
+        "q": "Qual plano de governo tem o item “Escola sem doutrinação” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Escola sem doutrinação” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-19",
+        "q": "No índice temático de qual candidatura aparece “Escola nas férias”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Escola nas férias” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-20",
+        "q": "O assunto identificado como “Voucher educacional em falta de vagas” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Voucher educacional em falta de vagas” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-21",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Reforço escolar - Programa Acolher”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Reforço escolar - Programa Acolher” ao eixo Educação (p. 34 do plano)."
+    },
+    {
+        "id": "flavio-22",
+        "q": "Qual plano de governo tem o item “Voucher-creche” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Voucher-creche” ao eixo Educação (p. 21 do plano)."
+    },
+    {
+        "id": "flavio-23",
+        "q": "No índice temático de qual candidatura aparece “Adesão à OCDE”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Adesão à OCDE” ao eixo Política Externa e Inserção Global (p. 63 do plano)."
+    },
+    {
+        "id": "flavio-24",
+        "q": "O assunto identificado como “ClarIA (assistente virtual)” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “ClarIA (assistente virtual)” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 18 do plano)."
+    },
+    {
+        "id": "flavio-25",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Central da Mulher”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Central da Mulher” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 17 do plano)."
+    },
+    {
+        "id": "flavio-26",
+        "q": "Qual plano de governo tem o item “Saúde para Elas” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Saúde para Elas” ao eixo Direitos Humanos, Equidade e Inclusão Social (p. 21 do plano)."
+    },
+    {
+        "id": "flavio-27",
+        "q": "No índice temático de qual candidatura aparece “Lixão zero”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Lixão zero” ao eixo Questão Agrária e Meio Ambiente (p. 47 do plano)."
+    },
+    {
+        "id": "flavio-28",
+        "q": "O assunto identificado como “100% dos serviços públicos digitalizados” está listado em qual plano indexado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “100% dos serviços públicos digitalizados” ao eixo Governança, Transparência e Reformas de Estado (p. 24 do plano)."
+    },
+    {
+        "id": "flavio-29",
+        "q": "Em qual índice oficial de propostas aparece o tópico “Fim da reeleição”?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Fim da reeleição” ao eixo Governança, Transparência e Reformas de Estado (p. 66 do plano)."
+    },
+    {
+        "id": "flavio-30",
+        "q": "Qual plano de governo tem o item “Revogaço regulatório” no índice publicado pelo TSE?",
+        "correct": "flavio",
+        "explain": "O índice de propostas de Flávio Bolsonaro, publicado pelo TSE, relaciona “Revogaço regulatório” ao eixo Governança, Transparência e Reformas de Estado (p. 27 do plano)."
+    }
+];
+  const QUESTIONS_PER_ROUND = 6;
+  const HISTORY_KEY = 'desafio-brasil-2026-historico-v3';
+  const $ = id => document.getElementById(id);
+  let roundQuestions = [], index = 0, answered = false, correctCount = 0, finished = false;
+  const initialInstructions = 'Este desafio verifica a identificação de itens nos índices temáticos dos planos divulgados pelo TSE. A presença de um item em um índice não significa exclusividade da ideia nem discordância do outro candidato. Não é uma pergunta sobre preferência eleitoral.';
+
+  function shuffled(items) {
+    const a = items.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function readHistory() {
+    try {
+      const saved=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');
+      return Array.isArray(saved)?saved.filter(id=>typeof id==='string'):[];
+    } catch(_) { return []; }
+  }
+  function writeHistory(ids) {
+    try { localStorage.setItem(HISTORY_KEY,JSON.stringify(ids)); } catch(_) { /* Navegação privada: permite continuar sem armazenar histórico. */ }
+  }
+  function selectRound() {
+    let seen=readHistory();
+    let next=[];
+    for (const person of ['lula','flavio']) {
+      const pool=questionBank.filter(q=>q.correct===person);
+      let available=pool.filter(q=>!seen.includes(q.id));
+      if (available.length<3) {
+        const ids=new Set(pool.map(q=>q.id));
+        seen=seen.filter(id=>!ids.has(id));
+        available=pool;
+      }
+      const chosen=shuffled(available).slice(0,3);
+      next.push(...chosen);
+      seen.push(...chosen.map(q=>q.id));
+    }
+    writeHistory(seen);
+    return shuffled(next);
+  }
+  function render() {
+    answered=false;
+    const q=roundQuestions[index];
+    $('question-position').textContent=`PERGUNTA ${index+1} DE ${QUESTIONS_PER_ROUND}`;
+    $('question-title').textContent=q.q;
+    $('answer-status').textContent='TOQUE EM UMA FOTO ABAIXO';
+    $('answer-result').className='result';
+    $('next').disabled=true;
+    $('next').textContent=index===QUESTIONS_PER_ROUND-1?'Ver meu resultado final →':'Próxima pergunta →';
+    for (const k of ['lula','flavio']) {
+      const b=$('choose-'+k);
+      b.disabled=false;
+      b.classList.remove('selected','correct');
+      b.querySelector('.tap').textContent='Escolher esta foto';
+    }
+  }
+  function updateStats() {
+    const n=finished?QUESTIONS_PER_ROUND:index+(answered?1:0);
+    const success=n?Math.round(correctCount/n*100):0;
+    $('progress-num').textContent=`${n}/${QUESTIONS_PER_ROUND}`;
+    $('progress-bar').style.width=(n/QUESTIONS_PER_ROUND*100)+'%';
+    $('score-num').textContent=success+'%';
+    $('score-bar').style.width=success+'%';
+  }
+  function answer(chosen) {
+    if(answered||finished)return;
+    answered=true;
+    const q=roundQuestions[index],right=chosen===q.correct;
+    if(right)correctCount++;
+    for(const k of ['lula','flavio']) {
+      const b=$('choose-'+k);b.disabled=true;
+      if(k===chosen)b.classList.add('selected');
+      if(k===q.correct)b.classList.add('correct');
+      b.querySelector('.tap').textContent=k===q.correct?'Consta neste índice':(k===chosen?'Sua escolha':'');
+    }
+    $('answer-status').textContent=right?'RESPOSTA CORRETA':'VEJA A RESPOSTA';
+    $('result-heading').textContent=right?'✓ Você acertou!':'Resposta revelada';
+    $('result-explain').textContent=q.explain;
+    $('result-source').href=sources[q.correct];
+    $('result-source').textContent='Conferir o índice no TSE →';
+    $('answer-result').className='result visible'+(right?'':' wrong');
+    $('next').disabled=false;
+    updateStats();
+  }
+  function nextQuestion() {
+    if (finished) { startRound(); return; }
+    if(!answered)return;
+    if(index<QUESTIONS_PER_ROUND-1) {
+      index++;render();
+      document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
+      return;
+    }
+    finished=true;
+    const pct=Math.round(correctCount/QUESTIONS_PER_ROUND*100);
+    $('question-position').textContent='DESAFIO CONCLUÍDO';
+    $('answer-status').textContent='SEU RESULTADO PESSOAL';
+    $('question-title').textContent=`Você acertou ${correctCount} de ${QUESTIONS_PER_ROUND} perguntas (${pct}%).`;
+    document.querySelector('.instruction').textContent='Desafio concluído! Você pode iniciar outra rodada com seis perguntas diferentes. O resultado não é enviado nem registrado em um sistema nacional.';
+    document.querySelector('.grid').style.display='none';
+    $('answer-result').className='result';
+    $('next').textContent='Nova rodada com outras perguntas ↻';
+    $('next').disabled=false;
+    updateStats();
+    document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function startRound() {
+    roundQuestions=selectRound();
+    index=0; answered=false;correctCount=0;finished=false;
+    document.querySelector('.grid').style.display='grid';
+    document.querySelector('.instruction').textContent=initialInstructions;
+    render();updateStats();
+    if(document.readyState==='complete') document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  document.querySelector('.instruction').textContent=initialInstructions;
+  startRound();
+</script>
+
+<!-- Login Google: integração isolada. Nenhuma operação de escrita ou leitura é executada no Firestore. -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+  // Configuração pública fornecida pelo Console Firebase para este aplicativo Web.
+  // NÃO é uma chave administrativa nem concede acesso ao Firestore, protegido por regras.
+  const firebaseConfig = {
+    apiKey: "AIzaSyDUDGjlJYPdI9nOO8xBLxzptr0MMOyrLvY",
+    authDomain: "desafio-brasil-2026.firebaseapp.com",
+    projectId: "desafio-brasil-2026",
+    storageBucket: "desafio-brasil-2026.firebasestorage.app",
+    messagingSenderId: "377110809589",
+    appId: "1:377110809589:web:b1818538bce5b678be2ebc"
+  };
+  const btn = document.getElementById('login-google');
+  const out = document.getElementById('logout-google');
+  const status = document.getElementById('login-status');
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({prompt: 'select_account'});
+
+  if(location.protocol === 'file:') {
+    btn.textContent = 'Teste o login no site publicado';
+    btn.disabled = true;
+    status.textContent = 'No arquivo local, a entrada Google não funciona. O quiz continua disponível.';
+  } else {
+    onAuthStateChanged(auth, user => {
+      btn.disabled = false;
+      if(user) {
+        btn.hidden = true;
+        out.hidden = false;
+        status.textContent = 'Conectado como ' + (user.displayName || 'participante') + '. O resultado do quiz ainda não é enviado.';
+      } else {
+        btn.hidden = false;
+        btn.textContent = 'Entrar com Google';
+        out.hidden = true;
+        status.textContent = 'A entrada é opcional nesta fase de testes.';
+      }
+    }, err => { status.textContent = 'Falha ao verificar autenticação. Atualize a página e tente novamente.'; btn.disabled = false; btn.textContent='Entrar com Google'; });
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      status.textContent = 'Abrindo entrada Google…';
+      try {
+        await signInWithPopup(auth, provider);
+      } catch(e) {
+        const messages = {
+          'auth/popup-closed-by-user': 'A janela de login foi fechada sem entrar.',
+          'auth/cancelled-popup-request': 'Uma tentativa de entrada foi cancelada.',
+          'auth/popup-blocked': 'O navegador bloqueou a janela do Google. Permita pop-ups para este site.',
+          'auth/unauthorized-domain': 'O endereço do site precisa estar autorizado no Firebase.',
+          'auth/operation-not-allowed': 'A entrada com Google ainda não está habilitada neste projeto.',
+          'auth/invalid-api-key': 'A configuração do Firebase precisa ser conferida.'
+        };
+        status.textContent = messages[e.code] || 'Não foi possível entrar agora. (' + (e.code || 'erro de conexão') + ')';
+        btn.disabled = false;
+      }
+    });
+    out.addEventListener('click', async () => {
+      out.disabled = true;
+      try { await signOut(auth); }
+      catch(e) { status.textContent='Não foi possível sair agora. Tente novamente.'; }
+      finally { out.disabled = false; }
+    });
+  }
+</script>
+</body>
+</html>
